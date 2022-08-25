@@ -1,0 +1,50 @@
+DECLARE @snils NVARCHAR(14) = '035-903-613-47'
+DECLARE @D3_SCID INT = 2059
+
+SELECT COUNT(*) col, 'посещение' per
+FROM (
+SELECT p.FAM, p.IM, p.OT, p.DR-- COUNT(*)
+FROM D3_ZSL AS dz
+JOIN D3_SL AS ds ON ds.D3_ZSLID = dz.ID
+JOIN PACIENT AS p ON p.ID = dz.D3_PID
+WHERE ds.IDDOKT = @snils--'144-980-678 01'--'171-882-463 94'--'153-075-362 47' 
+AND dz.D3_SCID = @D3_SCID AND dz.OS_SLUCH_REGION IS NULL AND ds.P_CEL IN ('1.3', '3.0') ) AS t
+
+UNION
+
+SELECT COUNT(*) col, 'обращение' per
+FROM (
+SELECT p.FAM, p.IM, p.OT, p.DR
+FROM D3_ZSL AS dz
+JOIN D3_SL AS ds ON ds.D3_ZSLID = dz.ID
+JOIN PACIENT AS p ON p.ID = dz.D3_PID
+WHERE ds.IDDOKT = @snils--'144-980-678 01'--'171-882-463 94'--'153-075-362 47' 
+AND dz.D3_SCID = @D3_SCID 
+AND dz.OS_SLUCH_REGION IS NULL 
+AND ds.P_CEL IN ('3.0')
+GROUP BY p.FAM, p.IM, p.OT, p.DR, ds.PROFIL) AS t
+
+UNION
+
+--Неотложка
+SELECT COUNT(*) col, 'неотложка' per
+FROM(
+SELECT dz.ID, COUNT(*) kol--dz.ID,                
+FROM D3_ZSL AS dz
+JOIN D3_SL AS ds ON ds.D3_ZSLID = dz.ID
+JOIN PACIENT AS p ON p.ID = dz.D3_PID
+WHERE ds.IDDOKT = @snils--'144-980-678 01'--'171-882-463 94'--'153-075-362 47' 
+AND dz.D3_SCID = @D3_SCID AND dz.OS_SLUCH_REGION IS NULL AND ds.P_CEL IN ('2.0')
+GROUP BY dz.ID) AS t
+
+UNION
+
+SELECT COUNT(*) col, 'профилактика' per
+FROM(
+SELECT dz.ID, COUNT(*) kol--dz.ID,                
+FROM D3_ZSL AS dz
+JOIN D3_SL AS ds ON ds.D3_ZSLID = dz.ID
+JOIN PACIENT AS p ON p.ID = dz.D3_PID
+WHERE ds.IDDOKT = @snils--'171-882-463 94'--'153-075-362 47' 
+AND dz.D3_SCID = @D3_SCID AND dz.OS_SLUCH_REGION IS NULL AND ds.P_CEL IN ('1.1')
+GROUP BY dz.ID) AS t

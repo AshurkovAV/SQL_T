@@ -1,0 +1,1 @@
+ALTER TABLE [ZFactMedicalEvent] ADD CharacterBasisDs INT 

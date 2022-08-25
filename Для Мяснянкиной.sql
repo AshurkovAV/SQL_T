@@ -1,0 +1,10 @@
+SELECT 
+(SELECT ysme.NameWithID
+   FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = dso2.IDDOKT) doc,
+ SUM(sumv), COUNT(*)
+FROM D3_SCHET_OMS AS dso
+JOIN D3_ZSL_OMS AS dzo ON dzo.D3_SCID = dso.ID
+JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
+WHERE dso.[YEAR] = 2020 
+AND dso2.P_CEL25 = '2.3' AND dzo.OS_SLUCH_REGION IS NULL
+GROUP BY dso2.IDDOKT

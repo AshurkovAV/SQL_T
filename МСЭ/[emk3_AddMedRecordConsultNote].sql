@@ -1,0 +1,116 @@
+ALTER PROCEDURE [dbo].[emk3_AddMedRecordConsultNote]
+@IdCaseMis INT
+AS
+BEGIN
+	--exec [emk3_AddMedRecordConsultNote]
+	
+					/*Запрос на добавление медицинской записи к случаю обслуживания
+			для региональной шины N3.Здравоохранение
+			от 10.10.2018
+			Автор: Николенко Р.*/
+
+--AddMedRecord------------------------------------------------------------------------------------------------------------
+	--Root	 	1..1
+	SELECT TOP 100
+	--/guid	 	1..1	GUID	Авторизационный токен --------------------------------------------------------------
+		--выбрать нужно GUID 
+	--/IdLpu	 	1..1	guid	Идентификатор МО
+	(SELECT TOP 1 IEMK_OID FROM FM_ORG WHERE FM_ORG_ID = 1) AS IdLpu
+	--/IdPatientMis	 	1..1	String	Идентификатор пациента в передающей системе
+	,PAT.KRN_GUID as IdPatientMis
+	,pat.PATIENTS_ID
+	--/IdCaseMis	 	1..1	String	Идентификатор случая в передающей МИС
+	,MOT.MOTCONSU_ID AS IdCaseMis
+		--/medRecord	 	1..1	 	Медицинская запись. Для значения xsi:type указывается соответствующий тип наследуемого объекта. Описание типов объекта приведено в разделе "Тип MedRecord"
+					--/ConsultNote
+						--CreationDate	1..1	dateTime	Дата создания документа
+						,(cast(MOT.DATE_CONSULTATION as DATE)) as CreationDate
+						--FhirMedDocumentType	0..0	string	Идентификатор типа документа (не используется при передаче данных)
+						--IdDocumentMis	0..1	string	Идентификатор документа в системе-источнике (МИС)
+						
+						--IdMedDocument	0..0	int	Идентификатор документа в БД (не используется при передаче данных)
+						--Attachment	0..1	DocumentAttachment	Неструктурированное (бинарное) содержание документа
+							--DocumentAttachment
+							--Data	0..1	base64Binary	Cтруктура SignData в формате base64binary
+								--SignData Если передается неподписанный документ, то поля PublicKey, Hash и Sign не заполняются.
+									--Data	1..1	Base64binary	Данные вложения (текст, pdf, html,xml) в формате base64binary
+									,MOT.REMD_BodyPreparedReport as Base64binary
+									,MOT.REMD_ECP_SIGN_DATA_ORG as OrganizationSign
+									,MOT.REMD_ECP_SIGN_DATA as PersonalSigns
+														--,(select cast(N'' as xml).value('xs:base64Binary(sql:column("plain_text"))', 'varchar(max)') as [encoded_value] 
+														--	from (select cast(((CASE WHEN isnull(DOC.Description, '') = '' 
+														--							THEN 'Медицинский документ ' + convert(varchar(19), MOT.DATE_CONSULTATION, 121) 
+														--							ELSE 
+														--							CAST(MOT.SEMD as varchar(max)) 
+														--							END)) as varbinary(max)) as [plain_text]) as tmp) as Base64binary -- продумать, как собрать весь осмотр в текст
+									--PublicKey	0..1	String	Публичный ключ сертификата ЭЦП
+									--Hash	0..1	String	Хеш-сумма данных. Расчет хеш-суммы производится по алгоритму ГОСТ Р 34.10-2012 (ГОСТ Р 34.10-2001). Значение хеш-суммы должно соответствовать данным, передаваемым в элементе Data в формате base64binary
+									--Sign	0..1	String	ЭЦП по ГОСТ Р 34.10-2012 (ГОСТ Р 34.10-2001)
+								--SignData
+							--Hash	0..1	base64Binary	Хэш данных (не используется для передачи в сервис)
+							--MimeType	Условно-обязателен (Если параметр Data заполнен)	string --MIME-тип данных файла-вложения, передаваемых в атрибуте Data структуры SignData. Поддерживаемые MIME-типы: text/html – HTML; text/plain – текст; application/pdf – PDF; text/xml – XML.
+							,'application/pdf' AS MimeType
+							--Url	0..1	anyURI	Адрес (ссылка), где находятся данные (содержимое вложения).
+								,VD.PHYSICAL_PATH + '\' + LET.FOLDER + '\' + LET.FileName AS Url	-- нужно подумать и рассмотреть как вариант давать ссылку на документ... путь можно взять из MOTCONSU_XML
+						--Author	1..1	MedicalStaff	Сведения о лице, создавшем документ
+							--Person	0..1	PersonWithIdentity	Сведения о о личности медицинского работника
+								--/Person/HumanName	 	1..1	 	ФИО врача
+									--/HumanName	FamilyName	 	1..1	String	Фамилия врача
+									,(select ltrim(rtrim(MED.NOM))) AS FamilyName
+									--/HumanName	GivenName	 	1..1	String	Имя врача
+									,(select ltrim(rtrim(substring(MED.PRENOM, 0, charindex(' ', MED.PRENOM))))) as GivenName
+									--/HumanName	MiddleName	 	0..1	String	Отчество врача
+									,(select ltrim(rtrim(substring(MED.PRENOM, charindex(' ', MED.PRENOM) +1, (len(MED.PRENOM) + charindex(' ', MED.PRENOM)))))) AS MiddleName --не обязательное - сделать выборку после пробела в MED.PRENOM
+								--/Person	IdPersonMis	 	1..1	String	Идентификатор врача в МИС
+								,MED.KRN_GUID as IdPersonMis -- предлагаю использовать GUID, можно и MEDECINS_ID
+								--/Person/Documents/IdentityDocument	 	0..*	 	Информация о документах участника случая – врача (объект заполняется аналогично документам пациента). Передается информация о СНИЛС (при ее наличии в МИС).
+									--/DocumentDto	IdDocumentType	 	1..1	unsignedByte	Код типа документа (OID справочника: 1.2.643.2.69.1.1.1.6)
+									,223 as IdDocumentType -- тип документа - СНИЛС
+									--/DocumentDto	DocN	 	1..1	String	Номер документа. Не должны использоваться разделители (пробелы, тире и т.д.)
+									,MED.SYS_SNILS as DocN -- номер снилса доктора без пробелов и тире
+									--/DocumentDto	ProviderName	 	1..1	String	Наименование организации, выдавшей документ
+									,'ПФР' as ProviderName -- организация, выдавшая документ
+							--Person
+							--IdLpu	0..1	string	Идентификатор МО
+							,(SELECT TOP 1 IEMK_OID FROM FM_ORG WHERE FM_ORG_ID = 1) AS IdLpu
+							--IdSpeciality	1..1	unsignedShort	Идентификатор специальности медицинского работника
+							,SPEC.Nsi_specialisation_ID as IdSpeciality
+							--IdPosition	1..1	unsignedShort	Идентификатор должности медицинского работника
+							,SPEC.DOLZGNOST as IdPosition
+						
+						--Header	1..1	string	Заголовок документа (краткое описание)
+						,(CASE WHEN isnull(DOC.Description, '') = '' THEN 'Медицинский документ ' + convert(varchar(19), MOT.DATE_CONSULTATION, 121) ELSE DOC.Description END) AS Header
+					
+FROM MOTCONSU MOT with (nolock)
+LEFT JOIN DATA_AMBULAT_PATIENT_COUPON DAPC ON DAPC.MOTCONSU_ID = MOT.MOTCONSU_EV_ID
+--LEFT JOIN ED_TREATMENT_FORM ETF ON ETF.ED_TREATMENT_FORM_ID = DAPC.ED_TREATMENT_FORM_ID
+--LEFT JOIN ED_LEVEL_ACCESS ELA ON ELA.ED_LEVEL_ACCESS_ID = MOT.UROVEN_DOSTUPA_K_SEMD
+LEFT JOIN PATIENTS PAT on PAT.PATIENTS_ID = MOT.PATIENTS_ID
+LEFT JOIN MEDECINS MED ON MED.MEDECINS_ID = MOT.LEHAHIJ_VRAH
+LEFT JOIN SPECIALISATION SPEC ON SPEC.SPECIALISATION_ID = MED.SPECIALISATION_ID
+--LEFT JOIN DATA_MOTCONSU_BILLDET DMB on DMB.MOTCONSU_ID = MOT.MOTCONSU_ID
+--LEFT JOIN DATA_DIAGNOSIS DD on DD.MOTCONSU_ID = MOT.MOTCONSU_ID
+--LEFT JOIN CIM10 MKB on MKB.CIM10_ID = DD.SS_LKA_CIM10
+--LEFT JOIN MOTCONSU_XML MOTXML on MOTXML.MOTCONSU_ID = MOT.MOTCONSU_ID 
+LEFT JOIN LETTERS DOC ON DOC.MOTCONSU_ID = MOT.MOTCONSU_ID
+LEFT JOIN DATA_GENERAL_EXAM DGE ON DGE.MOTCONSU_ID = MOT.MOTCONSU_ID
+LEFT JOIN (SELECT * FROM LETTERS WHERE D_Type = 1) LET ON LET.MOTCONSU_ID = MOT.MOTCONSU_ID
+LEFT JOIN VIRTUAL_DISKS VD ON VD.VIRTUAL_DISKS_ID = LET.VIRTUAL_DISKS_ID
+
+where 
+--вот тут косяк в том, что в МО никто не подтверждал и не подписывал ЭЦП протоколы....
+--MOT.PUBLISHED = 1 -- выбираем только опубликованные записи
+--and MOT.REC_STATUS = 'A' -- выбираем только подписанные врачом записи
+
+
+--and MOT.CHANGED <> 1 --добавляем только не изменявшиеся запси, так как остальные будут "обновляться" при ранее созданном кейсе
+--and MOT.MOTCONSU_ID <> MOT.MOTCONSU_EV_ID -- выбираем записи, которые не открывают событие, а созданы в рамках законченного случая
+--and MOT.ZAPIS_ZAKR_VAYHAQ_SOB_TIE <> 1 -- это не должна быть последняя запись, закрывающаяя событие, так как она будет передана в CloseCase
+--AND
+ MOT.MOTCONSU_ID = @IdCaseMis
+ORDER BY MOT.MOTCONSU_ID DESC -- для разборки скрипта, потом можно убрать
+END
+
+GO
+
+

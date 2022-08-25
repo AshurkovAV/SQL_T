@@ -1,0 +1,17 @@
+SELECT 
+(SELECT v.NameWithID FROM V009 AS v WHERE v.IDRMP = pv.HelpResult) kod,
+pv.HelpResult,
+'' com,
+isnull(SUM(CASE WHEN DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 21 AND 36 THEN 1 ELSE 0 END),0) '21 36',
+isnull(SUM(CASE WHEN DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 39 AND 60 THEN 1 ELSE 0 END),0) '39 60',
+isnull(SUM(CASE WHEN DATEDIFF(YEAR, pv.DR, pv.HelpStart) > 60 THEN 1 ELSE 0 END),0) '> 60',
+isnull(SUM(CASE WHEN pv.W = 1 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 21 AND 36 THEN 1 ELSE 0 END),0) '21 36M',
+isnull(SUM(CASE WHEN pv.W = 1 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 39 AND 60 THEN 1 ELSE 0 END),0) '39 60M',
+isnull(SUM(CASE WHEN pv.W = 1 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) > 60 THEN 1 ELSE 0 END),0) '> 60M',
+isnull(SUM(CASE WHEN pv.W = 2 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 21 AND 36 THEN 1 ELSE 0 END),0) '21 36G',
+isnull(SUM(CASE WHEN pv.W = 2 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) BETWEEN 39 AND 60 THEN 1 ELSE 0 END),0) '39 60G',
+isnull(SUM(CASE WHEN pv.W = 2 AND DATEDIFF(YEAR, pv.DR, pv.HelpStart) > 60 THEN 1 ELSE 0 END),0) '> 60G'
+FROM PacientVisit AS pv
+WHERE pv.ReestrMedOrgID = 56
+AND pv.OsobSluch IN (23) AND pv.MKB BETWEEN 'E78.0' AND 'E78.9'
+GROUP BY pv.HelpResult

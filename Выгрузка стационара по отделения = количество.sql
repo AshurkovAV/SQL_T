@@ -1,0 +1,37 @@
+SELECT 
+(SELECT od.NameWithID FROM OtdelDb AS od WHERE od.Id = s.PODR)[Отделение], 
+(SELECT v.NameWithID FROM V006 AS v WHERE v.id = s.USL_OK) [Условие оказания помощи],
+MONTH(s.DATE_2)[месяц], 
+COUNT(*)[количество]
+FROM SLUCH AS s
+JOIN d3_SCHET_OMS AS so ON s.SCHET_ID = so.ID
+WHERE s.SCHET_ID IN (2057, 2059, 2060, 2061, 2071, 2077, 2083, 2092, 2095, 2111, 2115, 2119)
+AND so.[MONTH] = MONTH(s.DATE_2)
+GROUP BY s.PODR, s.USL_OK, MONTH(s.DATE_2)
+
+
+SELECT 
+(SELECT od.NameWithID FROM OtdelDb AS od WHERE od.Id = s.PODR)[Отделение], 
+(SELECT v.NameWithID FROM V006 AS v WHERE v.id = s.USL_OK) [Условие оказания помощи],
+MONTH(s.DATE_2)[месяц], 
+COUNT(*)[количество]
+FROM SLUCH AS s
+JOIN d3_SCHET_OMS AS so ON s.SCHET_ID = so.ID
+WHERE s.SCHET_ID IN (2127,2128,2136,2137,2141,2142,2146,2147,2152,2153,2155,2156,2159,2160)
+AND so.[MONTH] = MONTH(s.DATE_2)
+GROUP BY s.PODR, s.USL_OK, MONTH(s.DATE_2)
+UNION ALL
+
+SELECT 
+(SELECT od.NameWithID FROM OtdelDb AS od WHERE od.Id = dso.PODR)[Отделение], 
+(SELECT v.NameWithID FROM V006 AS v WHERE v.id = dzo.USL_OK) [Условие оказания помощи],
+MONTH(dzo.DATE_Z_2)[месяц], 
+COUNT(*)[количество]
+FROM D3_ZSL_OMS AS dzo
+JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+JOIN d3_SCHET_OMS AS so ON dzo.D3_SCID = so.ID
+WHERE dzo.D3_SCID IN (2127,2128,2136,2137,2141,2142,2146,2147,2152,2153,2155,2156,2159,2160)
+AND so.[MONTH] = MONTH(dzo.DATE_Z_2) AND dzo.USL_OK IN (1,2) AND dso.SUM_M != 0 
+GROUP BY 
+dso.PODR ,
+dzo.USL_OK, MONTH(dzo.DATE_Z_2)

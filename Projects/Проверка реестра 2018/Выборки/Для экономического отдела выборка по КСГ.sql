@@ -1,0 +1,17 @@
+SELECT [ÊÑÃ], SUM(sumv)sumv, 
+(SELECT v.NameWithID FROM V002 AS v WHERE v.ID = profil), 
+COUNT(*) kol
+FROM(
+SELECT sl.id, u.IDKSG, sum(sl.sumv)sumv,
+(SELECT ckt.NameWithID FROM SprKsg AS ckt WHERE ckt.ID = u.IDKSG)[ÊÑÃ], sl.PROFIL
+  FROM [SLUCH] sl
+  LEFT JOIN USL AS u ON u.SLID = sl.ID
+  INNER JOIN PACIENT AS p ON p.ID = sl.PID
+  JOIN SCHET AS s ON s.ID = sl.SCHET_ID
+WHERE sl.SCHET_ID IN(1035, 1037, 1039, 1042, 1044, 1046, 1047, 1048, 1050, 2051, 2053, 2055) 
+AND sl.USL_OK = 2
+AND CODE_USL = 'TF1.D01.001' --TF1.K01.001
+AND month(sl.DATE_2) = s.[MONTH]
+GROUP BY sl.ID, u.IDKSG, sl.PROFIL) AS t
+WHERE t.IDKSG IS NOT NULL
+GROUP BY t.[ÊÑÃ], profil

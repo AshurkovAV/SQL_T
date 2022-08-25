@@ -1,0 +1,10 @@
+SELECT 
+(SELECT v.NameWithID FROM v021 v WHERE v.IDSPEC = dso2.PRVS21), 
+(SELECT TOP 1 ysme.NameWithID FROM [Yamed_Spr_MedicalEmployee26] AS ysme WHERE ysme.SNILS = dso2.IDDOKT), dzo.USL_OK,
+ COUNT(*)
+FROM D3_SCHET_OMS AS dso
+JOIN D3_PACIENT_OMS AS dpo ON dpo.D3_SCID = dso.ID
+JOIN D3_ZSL_OMS AS dzo ON dzo.D3_SCID = dso.ID AND dzo.D3_PID = dpo.ID
+JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
+WHERE dso.[YEAR] = 2021 AND dso.CODE_MO = 460026 AND (dzo.PR_NOV IS NULL OR dzo.PR_NOV = 0)
+GROUP BY dso2.IDDOKT, dso2.PRVS21, dzo.USL_OK

@@ -1,0 +1,7 @@
+SELECT SUM(CASE WHEN sl.usl_ok = 1 THEN DATEDIFF(DAY,sl.date_1, sl.date_2) ELSE DATEDIFF(DAY,sl.date_1, sl.date_2) + 1  END)
+FROM SLUCH AS sl
+JOIN SCHET AS sc ON sc.ID = sl.SCHET_ID
+WHERE sl.SCHET_ID = 1033
+AND sl.USL_OK = 1
+AND MONTH(sl.DATE_2) = sc.[MONTH]
+

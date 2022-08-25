@@ -1,0 +1,17 @@
+--ALTER TABLE PATDIREC ADD [BundleGuid] [nvarchar](36) NULL
+--ALTER TABLE PATDIREC ADD [SENDED] [int] NULL
+--ALTER TABLE PATDIREC ADD [SEND_DATE] [datetime] NULL
+--ALTER TABLE PATDIREC ADD [OrderId] [nvarchar](36) NULL
+--ALTER TABLE PATDIREC ADD [StatusOdli] [int] NULL
+
+select top 100 p2.nom, p2.PRENOM, p2.NE_LE, p2.PATRONYME, p.BundleGuid, p.PATDIREC_ID,
+p.*
+from PATDIREC p
+left join PL_EXAM pe on pe.PL_EXAM_ID = p.PL_EXAM_ID
+JOIN PATIENTS AS p2 ON p2.PATIENTS_ID = p.PATIENTS_ID
+JOIN MEDECINS AS m ON p.MEDECINS_CREATOR_ID = m.MEDECINS_ID
+
+where pe.NEED_MATERIAL = 1 AND p.BundleGuid is NOT NULL 
+                        --   AND p.BundleGuid = 'a970056f-7786-400f-8875-d8ff0d2078c4'
+--p.KRN_GUID = 'a970056f-7786-400f-8875-d8ff0d2078c4'
+ORDER BY pe.PL_EXAM_ID desc

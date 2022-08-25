@@ -1,0 +1,7 @@
+SELECT p.FAM, p.IM, p.OT, p.DR, s.DATE_1, s.DATE_2,
+(SELECT db.FAM + ' ' + im + ' ' + ot FROM DoctorBd AS db WHERE db.id = s.IDDOKTO) doc
+FROM SLUCH AS s
+JOIN PACIENT AS p ON p.ID = s.PID
+JOIN SANK AS s2 ON s2.SLID = s.ID
+WHERE s2.SCHET_ID = 1047 AND s2.S_TIP = 1 AND s.OS_SLUCH_REGION = 11
+ORDER BY doc

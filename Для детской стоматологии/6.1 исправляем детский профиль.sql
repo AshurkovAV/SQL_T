@@ -1,0 +1,4 @@
+UPDATE sl SET DET = 0
+FROM D3_ZSL_OMS zs
+	join D3_SL_OMS sl on zs.id=sl.D3_ZSLID 
+WHERE zs.D3_SCID = 5045 AND sl.PROFIL IN( 63,85,90) AND sl.DET = 1

@@ -1,0 +1,1 @@
+ALTER TABLE [medicine_ins].[dbo].[ZFactMedicalEvent] ALTER COLUMN [SlIdGuid] NVARCHAR(36)

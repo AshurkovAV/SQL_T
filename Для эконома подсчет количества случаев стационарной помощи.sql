@@ -1,0 +1,11 @@
+SELECT 
+
+CASE WHEN p.smo LIKE '46%' THEN f.NameWithID ELSE 'ТФОМС Иногородние' END smo,
+sl.USL_OK, 
+COUNT(*)kol
+  FROM [SLUCH] sl 
+  INNER JOIN PACIENT AS p ON p.ID = sl.PID
+  JOIN D3_SCHET_oms AS s ON s.ID = sl.SCHET_ID
+  LEFT JOIN F002 AS f ON f.smocod = p.SMO
+WHERE sl.SCHET_ID IN (2057,2059,2060,2061,2071,2077,2083,2092,2095,2111,2115)
+GROUP BY CASE WHEN p.smo LIKE '46%' THEN f.NameWithID ELSE 'ТФОМС Иногородние' END, sl.USL_OK

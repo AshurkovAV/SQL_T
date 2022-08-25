@@ -1,0 +1,31 @@
+
+
+BEGIN TRAN
+BEGIN TRY
+DECLARE @ErrorMessage NVARCHAR(4000)
+		DECLARE @ErrorSeverity INT
+		DECLARE @ErrorState INT
+		
+EXEC [dbo].[versionÑheck] 691
+
+UPDATE f SET Reason = NULL
+FROM FactExpertCriterion f
+WHERE OidCode IN (
+'3B0C06F8-91DA-4397-8D16-BDB0891E2738',
+'1D962318-E7CA-4B10-B78B-7F29496EFF37',
+'A2065FEC-DE81-448C-BFFF-AEF7F6C25C8F',
+'13931575-C552-40F6-ABAC-508946226FD4',
+'5A9EFAA6-994A-4024-B3F8-58ED93B4D67E')
+	
+
+EXEC [dbo].[versionUpdate] 692
+COMMIT TRAN;		
+END TRY
+		BEGIN CATCH			
+			SET @ErrorMessage= ERROR_MESSAGE()
+			SET @ErrorSeverity= ERROR_SEVERITY()
+			SET @ErrorState= ERROR_STATE()
+			RAISERROR (@ErrorMessage,@ErrorSeverity,@ErrorState)
+			IF (@@trancount > 0) ROLLBACK TRAN						
+		END CATCH
+IF (@@trancount > 0) ROLLBACK TRAN;

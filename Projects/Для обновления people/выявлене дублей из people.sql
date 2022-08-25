@@ -1,0 +1,10 @@
+SELECT p.id
+INTO people_dubl
+FROM PEOPLE AS p
+INNER JOIN(
+SELECT p.FAM, p.IM, p.OT, p.DR--, COUNT(*)
+FROM PEOPLE AS p
+WHERE p.FAM IS NOT NULL AND p.IM IS NOT NULL AND p.OT IS NOT  NULL AND  p.DR is not null
+GROUP BY p.FAM, p.IM, p.OT, p.DR
+HAVING COUNT(*) > 1) AS t
+ON p.FAM = t.FAM AND p.IM = t.IM  AND p.OT = t.OT AND p.DR = t.DR

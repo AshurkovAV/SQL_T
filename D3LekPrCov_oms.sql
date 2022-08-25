@@ -1,0 +1,40 @@
+
+ALTER VIEW [dbo].[D3LekPrCov_oms]
+AS
+SELECT  m.KRN_GUID,
+CAST(ISNULL(dw.DATA_VVEDENIYA_LEK_PREPAR, m.DATE_CONSULTATION) AS DATE) DATA_INJ ,
+CAST(v032.ScheDrugGrCd AS NVARCHAR(50)) CODE_SH,
+N020.ID_LEKP REG_NUM,
+NULL COD_MARK,
+vr58.ID ED_IZM,
+CAST(dw.DOZA_VVEDENIYA_LEK_PREPAR AS DECIMAL) DOSE_INJ,
+vr68.ID METHOD_INJ,
+CAST (dw.KOLICHESTVO_VVEDENIY as DECIMAL) COL_INJ
+ FROM MOTCONSU m
+ inner join DATA_W438_D3_LEK_PR_COV_OMS dw on dw.MOTCONSU_ID=m.motconsu_id
+ left join V032 v032 on v032.ID=dw.KOD_SHEMY_LECHENIYA
+ left join N020 n020 on n020.IDN020=dw.IDENTIFIKATOR_LEK_PREPAR
+ left join VR58 vr58 on vr58.ID=dw.EDINICA_IZMERENIYA_DOZY
+ left join VR68 vr68 on vr68.ID=dw.PUT_VVEDENIYA_LEK_PREPAR
+ 
+ GO
+GRANT INSERT ON [dbo].[D3LekPrCov_oms] TO [fer]
+GO
+GRANT SELECT ON [dbo].[D3LekPrCov_oms] TO [fer]
+GO
+GRANT ALTER ON [dbo].[D3LekPrCov_oms] TO [fer]
+GO
+GRANT UPDATE ON [dbo].[D3LekPrCov_oms] TO [fer]
+GO
+GRANT DELETE ON [dbo].[D3LekPrCov_oms] TO [fer]
+GO
+GRANT INSERT ON [dbo].[D3LekPrCov_oms] TO [iemk_user]
+GO
+GRANT SELECT ON [dbo].[D3LekPrCov_oms] TO [iemk_user]
+GO
+GRANT ALTER ON [dbo].[D3LekPrCov_oms] TO [iemk_user]
+GO
+GRANT UPDATE ON [dbo].[D3LekPrCov_oms] TO [iemk_user]
+GO
+GRANT DELETE ON [dbo].[D3LekPrCov_oms] TO [iemk_user]
+GO

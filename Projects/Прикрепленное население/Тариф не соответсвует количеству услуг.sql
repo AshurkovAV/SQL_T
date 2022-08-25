@@ -1,0 +1,36 @@
+DECLARE @tt TABLE (
+tt_COUNT INT,
+tt_TARIF NUMERIC (15,2)
+)
+ 
+INSERT @tt VALUES (1, 358.70)
+INSERT @tt VALUES (2, 717.40)
+INSERT @tt VALUES (3, 1076.10)
+INSERT @tt VALUES (4, 1434.80)
+INSERT @tt VALUES (6, 2152.20)
+INSERT @tt VALUES (7, 2510.90)
+INSERT @tt VALUES (8, 2869.60)
+INSERT @tt VALUES (9, 3228.30)
+
+DECLARE @t1 TABLE (
+ID INT,
+sumv NUMERIC (15,2),
+cnt INT
+) 
+
+INSERT INTO @t1 (id, sumv, cnt) 
+SELECT ID, SUMV, sl.cnt FROM (
+SELECT sl.ID, sl.SUMV, COUNT(*) cnt FROM SLUCH sl
+JOIN usl u ON sl.ID = u.SLID
+JOIN Nomenclature n ON u.CODE_USL = n.Id
+WHERE sl.SCHET_ID = 1025 AND sl.OS_SLUCH_REGION = 11 
+AND n.Name like '%прием%' 
+AND u.CODE_USL != 'B04.035.004' 
+GROUP BY sl.ID, sl.SUMV) sl
+LEFT JOIN @tt tt ON sl.SUMV = tt.tt_TARIF
+WHERE sl.cnt < tt.tt_COUNT OR sl.SUMV NOT IN (SELECT tt_TARIF FROM @tt)
+
+SELECT sl.SUMV, tt.tt_TARIF, t1.cnt
+FROM SLUCH AS sl
+JOIN @t1 AS t1 ON t1.ID = sl.ID
+JOIN @tt AS tt ON t1.cnt = tt.tt_COUNT 

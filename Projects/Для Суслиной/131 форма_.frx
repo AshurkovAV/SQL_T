@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/07/2015 13:15:48" ReportInfo.Modified="06/05/2015 12:16:28" ReportInfo.CreatorVersion="2014.2.7.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqCb8Jmkrh4rZNJQM/iuXVEmqUo3yM9eGJeljkNl0DV4ypGC1wAt6Uog1JEvj3iN5ucPrc1Tm+qbpeju5/3MzrSUXExpQsT/SJsW5DMIqZgEv4jHk2luAoRPCM5whuK2D4bidCh+VCa92N0MpsLQBMZU93uAXTLRiC363p8KwP0g7kNJFYOwG+TX0rlKlrMTqr86y+eN5T1ljHRoD55QTUkJ+ImpCFXsUwD+nzMS69EYqvJsYFjkb/ytg0VBVYlh0+">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT &#13;&#10;(SELECT m.NameWithID&#13;&#10;   FROM M001 m WHERE m.IDDS = pv.MKB) AS [Код заб], &#13;&#10;   (SELECT v.NameWithID&#13;&#10;      FROM V005 AS v WHERE v.Id = pv.W) w, &#13;&#10;   CASE WHEN YEAR(dr) BETWEEN 1979 AND 1994 THEN 'год роджения 1979-1994'&#13;&#10;	    WHEN YEAR(dr) BETWEEN 1955 AND 1976 THEN 'год роджения 1955-1976'&#13;&#10;	    WHEN YEAR(dr) BETWEEN 1900 AND 1952 THEN 'год роджения 1900-1952'&#13;&#10;   ELSE 'другие' END [goda], &#13;&#10;   COUNT(*) kol&#13;&#10;	FROM pacientvisit pv&#13;&#10;	--INNER JOIN Uslugi AS u2 ON u2.SluchID = pv.id&#13;&#10;	WHERE pv.ConditionHelp = 3 AND pv.ReestrMedOrgID IN (56)&#13;&#10;	AND pv.OsobSluch = 22&#13;&#10;GROUP BY pv.MKB, pv.W, CASE WHEN YEAR(dr) BETWEEN 1979 AND 1994 THEN 'год роджения 1979-1994'&#13;&#10;	    WHEN YEAR(dr) BETWEEN 1955 AND 1976 THEN 'год роджения 1955-1976'&#13;&#10;	    WHEN YEAR(dr) BETWEEN 1900 AND 1952 THEN 'год роджения 1900-1952'&#13;&#10;   ELSE 'другие' END ">
+        <Column Name="Код заб" DataType="System.String"/>
+        <Column Name="w" DataType="System.String"/>
+        <Column Name="goda" DataType="System.String"/>
+        <Column Name="kol" DataType="System.Int32"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Total Name="Total" Expression="[Table.kol]" Evaluator="Data1" PrintOn="GroupFooter2"/>
+    <Total Name="Total1" Expression="[Table.kol]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Total2" Expression="[Table.kol]" Evaluator="Data1"/>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="18.9"/>
+    <GroupHeaderBand Name="GroupHeader1" Top="22.78" Width="718.2" Height="18.9" Condition="[Table.w]">
+      <TableObject Name="Table1" Width="708.75" Height="18.9">
+        <TableColumn Name="Column1" Width="264.6"/>
+        <TableColumn Name="Column2" Width="47.25"/>
+        <TableColumn Name="Column3"/>
+        <TableColumn Name="Column4"/>
+        <TableColumn Name="Column5" Width="264.6"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Border.Lines="Left, Top, Bottom" Text="[Table.w]" Font="Arial, 10pt, style=Bold"/>
+          <TableCell Name="Cell2" Border.Lines="Right, Top, Bottom" ColSpan="4"/>
+          <TableCell Name="Cell3" Border.Lines="All"/>
+          <TableCell Name="Cell4" Border.Lines="All"/>
+          <TableCell Name="Cell5" Border.Lines="All"/>
+        </TableRow>
+      </TableObject>
+      <GroupHeaderBand Name="GroupHeader2" Top="45.57" Width="718.2" Height="18.9" Condition="[Table.goda]">
+        <TableObject Name="Table1" Width="708.75" Height="18.9">
+          <TableColumn Name="Column6" Width="45.36"/>
+          <TableColumn Name="Column7" Width="102.06"/>
+          <TableColumn Name="Column8" Width="120.96"/>
+          <TableColumn Name="Column9" Width="120.96"/>
+          <TableColumn Name="Column10" Width="319.41"/>
+          <TableRow Name="Row2">
+            <TableCell Name="Cell6" Border.Lines="Left, Top, Bottom"/>
+            <TableCell Name="Cell7" Border.Lines="Right, Top, Bottom" Text="[Table.w]  [Table.goda]" Font="Arial, 10pt, style=Bold" ColSpan="4"/>
+            <TableCell Name="Cell8" Border.Lines="All"/>
+            <TableCell Name="Cell9" Border.Lines="All"/>
+            <TableCell Name="Cell10" Border.Lines="All"/>
+          </TableRow>
+        </TableObject>
+        <DataBand Name="Data1" Top="68.35" Width="718.2" Height="18.9" CanGrow="true" CanShrink="true" DataSource="Table">
+          <TableObject Name="Table1" Width="707.9" Height="18.9" Border.Lines="All">
+            <TableColumn Name="Column15" Width="500"/>
+            <TableColumn Name="Column16" Width="207.9"/>
+            <TableRow Name="Row5">
+              <TableCell Name="Cell15" Border.Lines="All" Text="[Table.Код заб]"/>
+              <TableCell Name="Cell16" Border.Lines="All" Text="[Table.kol]"/>
+            </TableRow>
+          </TableObject>
+        </DataBand>
+        <GroupFooterBand Name="GroupFooter2" Top="91.13" Width="718.2" Height="28.35">
+          <TableObject Name="Table2" Width="707.9" Height="18.9" Border.Lines="All">
+            <TableColumn Name="Column13" Width="500"/>
+            <TableColumn Name="Column14" Width="207.9"/>
+            <TableRow Name="Row4">
+              <TableCell Name="Cell13" Border.Lines="All" Text="Всего по [Table.goda]" Font="Arial, 10pt, style=Bold"/>
+              <TableCell Name="Cell14" Border.Lines="All" Text="[Total]" Font="Arial, 10pt, style=Bold"/>
+            </TableRow>
+          </TableObject>
+        </GroupFooterBand>
+      </GroupHeaderBand>
+      <GroupFooterBand Name="GroupFooter1" Top="123.37" Width="718.2" Height="28.35">
+        <TableObject Name="Table1" Width="707.9" Height="18.9" Border.Lines="All">
+          <TableColumn Name="Column17" Width="500"/>
+          <TableColumn Name="Column18" Width="207.9"/>
+          <TableRow Name="Row6">
+            <TableCell Name="Cell17" Border.Lines="All" Text="Всего по [Table.w]" Font="Arial, 10pt, style=Bold"/>
+            <TableCell Name="Cell18" Border.Lines="All" Text="[Total1]" Font="Arial, 10pt, style=Bold"/>
+          </TableRow>
+        </TableObject>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="155.6" Width="718.2" Height="37.8">
+      <TableObject Name="Table1" Width="707.9" Height="18.9" Border.Lines="All">
+        <TableColumn Name="Column19" Width="500"/>
+        <TableColumn Name="Column20" Width="207.9"/>
+        <TableRow Name="Row7">
+          <TableCell Name="Cell19" Border.Lines="All" Text="Всего " Font="Arial, 10pt, style=Bold"/>
+          <TableCell Name="Cell20" Border.Lines="All" Text="[Total2]" Font="Arial, 10pt, style=Bold"/>
+        </TableRow>
+      </TableObject>
+    </ReportSummaryBand>
+  </ReportPage>
+</Report>

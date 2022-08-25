@@ -1,0 +1,59 @@
+DECLARE @D3_SANK_OMS TABLE(
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[S_CODE] [nvarchar](36) NULL,
+	[S_SUM] [numeric](17, 2) NULL,
+	[S_SUM2] [numeric](17, 2) NULL,
+	[S_TIP] [int] NULL,
+	[S_KOD] [numeric](3, 0) NULL,
+	[S_OSN] [nvarchar](20) NULL,
+	[S_COM] [nvarchar](2000) NULL,
+	[S_ZAKL] [nvarchar](max) NULL,
+	[S_IST] [int] NULL,
+	[S_DATE] [datetime] NULL,
+	[D3_ZSLID] [int] NOT NULL,
+	[D3_ZSLGID] [nvarchar](36) NULL,
+	[D3_SCID] [int] NOT NULL,
+	[IMP_ID] [int] NULL,
+	[s_type] [int] NULL,
+	[S_TIP2] [numeric](2, 0) NULL,
+	[CODE_EXP] [nvarchar](8) NULL,
+	[DATE_ACT] [datetime] NULL,
+	[NUM_ACT] [nvarchar](30) NULL,
+	[USER_ID] [numeric](2, 0) NULL,
+	[MODEL_ID] [int] NULL,
+	[ExpOrder] [nvarchar](20) NULL)
+
+INSERT INTO @D3_SANK_OMS
+(
+	 [S_CODE],[S_SUM],[S_SUM2],[S_TIP],[S_OSN],[S_COM],[S_ZAKL],[S_IST],[S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID],[IMP_ID],[S_Type]
+      ,[S_TIP2],[CODE_EXP],[DATE_ACT],[NUM_ACT],[USER_ID],[MODEL_ID] 
+)
+SELECT  [S_CODE],[S_SUM],[S_SUM2],[S_TIP],[S_OSN],[S_COM],[S_ZAKL],[S_IST],[S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID],[IMP_ID],[S_Type]
+      ,[S_TIP2],[CODE_EXP],[DATE_ACT],[NUM_ACT],[USER_ID],[MODEL_ID] 
+FROM [TFOMS].[ELMEDICINENEWFOND].[dbo].[D3_SANK_OMS] AS dso
+WHERE dso.D3_SCID IN (3921
+,3951
+,4144
+,4182
+,4227
+,4287) AND dso.S_TIP = 1
+
+--DELETE FROM D3_SANK_OMS WHERE S_CODE IN (
+--SELECT dso.S_CODE
+--FROM @D3_SANK_OMS AS dso)
+ 
+ INSERT INTO D3_SANK_OMS
+ (
+   [S_CODE],[S_SUM],[S_SUM2],[S_TIP],[S_OSN],[S_COM],[S_ZAKL],[S_IST],[S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID],[IMP_ID],[S_Type]
+   ,[S_TIP2],[CODE_EXP],[DATE_ACT],[NUM_ACT],[USER_ID],[MODEL_ID] 
+ )
+ SELECT  [S_CODE],[S_SUM],[S_SUM2],[S_TIP],[S_OSN],[S_COM],[S_ZAKL],[S_IST],[S_DATE],dzo.ID,dzo.ZSL_ID,dzo.D3_SCID,[IMP_ID],[S_Type]
+      ,[S_TIP2],[CODE_EXP],[DATE_ACT],[NUM_ACT],[USER_ID],[MODEL_ID] 
+ FROM (SELECT * FROM @D3_SANK_OMS WHERE S_CODE NOT IN (SELECT dso.S_CODE FROM D3_SANK_OMS AS dso)) AS dso
+ JOIN D3_ZSL_OMS AS dzo ON dso.D3_ZSLGID = dzo.ZSL_ID
+ WHERE dzo.D3_SCID IN (SELECT id
+FROM D3_SCHET_OMS AS dso
+WHERE dso.CODE_MO = 460026 AND dso.[YEAR] = 2020 AND dso.[MONTH] = 1) --AND dso.S_CODE != 'BCB61A29-4EA7-4F7F-9CEE-710833E0D791'
+ --SELECT *
+ --FROM D3_SCHET_OMS AS dso
+ --WHERE dso.CODE_MO = 460026 AND dso.[YEAR] = 2019 AND dso.SchetType = 'H'

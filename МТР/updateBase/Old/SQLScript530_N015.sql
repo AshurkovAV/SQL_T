@@ -1,0 +1,4 @@
+INSERT [dbo].[N015] ([ID_TLek_L], [TLek_NAME_L], [DATEBEG], [DATEEND]) VALUES (5, N'Неоадъювантная', CAST(0x0000A94E00000000 AS DateTime), NULL)
+INSERT [dbo].[N015] ([ID_TLek_L], [TLek_NAME_L], [DATEBEG], [DATEEND]) VALUES (6, N'Адъювантная', CAST(0x0000A94E00000000 AS DateTime), NULL)
+INSERT [dbo].[N015] ([ID_TLek_L], [TLek_NAME_L], [DATEBEG], [DATEEND]) VALUES (7, N'Периоперационная (до хирургического лечения)', CAST(0x0000A94E00000000 AS DateTime), NULL)
+INSERT [dbo].[N015] ([ID_TLek_L], [TLek_NAME_L], [DATEBEG], [DATEEND]) VALUES (8, N'Периоперационная (после хирургического лечения)', CAST(0x0000A94E00000000 AS DateTime), NULL)

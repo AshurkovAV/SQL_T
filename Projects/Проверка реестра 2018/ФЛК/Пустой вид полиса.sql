@@ -1,0 +1,6 @@
+DECLARE @D3_SCID INT = 2072
+SELECT dz.id, p.FAM, p.IM, p.OT, p.DR, 'Пустой вид полиса'
+FROM D3_ZSL AS dz
+JOIN D3_SL AS ds ON dz.ID = ds.D3_ZSLID
+JOIN PACIENT AS p ON dz.D3_PID = p.ID
+WHERE p.VPOLIS IS NULL AND dz.D3_SCID = @D3_SCID

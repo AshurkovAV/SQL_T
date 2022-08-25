@@ -1,0 +1,10 @@
+SELECT 
+(SELECT TOP 1 ysme.NameWithID FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = dso.IDDOKT) doc, 
+MONTH(dzo.DATE_Z_2) [MONTH], COUNT(*)
+FROM D3_ZSL_OMS AS dzo
+JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
+WHERE dzo.OS_SLUCH_REGION = 11 
+AND dso2.[YEAR] = 2021 AND dzo.PR_NOV = 0
+GROUP BY dso.IDDOKT, MONTH(dzo.DATE_Z_2)
+ORDER BY doc, [MONTH]

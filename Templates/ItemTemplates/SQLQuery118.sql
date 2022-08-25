@@ -1,0 +1,4 @@
+CASE WHEN MONTH(dr) IN (1,2,3,4,5,6) THEN 2
+     WHEN MONTH(dr) IN (7,8,9) THEN 3
+     WHEN MONTH(dr) IN (10,11,12) THEN 4 
+     ELSE 5 END kv,

@@ -1,0 +1,3 @@
+SET IDENTITY_INSERT [dbo].[localSettings] ON 
+INSERT [dbo].[localSettings] ([SettingsID], [Key], [Value], [Metadata]) VALUES (9, N'TerritoriCode', N'{"tf_code":46,"tf_okato":"38000"}', N'{"Id":"TerritoriCode","Title":"Код территории страхования","Descriptions":[{"Id":"tf_code","DisplayName":"Код тер","DefaultValue":46,"Typo":"int","DisplayCategory":"Основные настройки"},{"Id":"tf_okato","DisplayName":"Код ОКАТО","DefaultValue":"38000","Typo":"string","DisplayCategory":"Основные настройки"}]}')
+SET IDENTITY_INSERT [dbo].[localSettings] OFF

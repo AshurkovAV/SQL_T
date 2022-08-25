@@ -1,0 +1,16 @@
+DECLARE @periodAllowCreate INT = 14
+DECLARE  @dateStart DATE  = '20180417'
+DECLARE @idSpesiality INT = 102
+SELECT NULL AS AriaNumber, 
+	NULL Comment,
+	(SELECT COUNT(*) FROM [dbo].[pl_GetMedecinGridFunc2](pl_Subj_ID, @dateStart, 
+	DATEADD(DAY, CASE WHEN PERIOD_ALLOW_CREATE > 14 THEN @periodAllowCreate ELSE ISNULL(PERIOD_ALLOW_CREATE, @periodAllowCreate) END, CAST(@dateStart AS DATETIME) - 1), 0) AS t WHERE EType = 0) CountFreeParticipantIE, 
+	CAST(pl_Subj_ID AS NVARCHAR(50)) AS IdDoc,
+	NULL NearestDate, 
+	ps.NAME AS Name,
+	NULL LastDate,
+	(SELECT top 1 m.snils FROM MEDECINS AS m WHERE m.MEDECINS_ID = ps.MEDECINS_ID)Snils, ps.EXCHANGE_CODE
+	FROM PL_SUBJ AS ps
+	JOIN SPECIALISATION AS s ON ps.SPECIALISATION_ID = s.SPECIALISATION_ID
+	WHERE ps.FP_ACCESS = 1 AND ps.SPECIALISATION_ID = @idSpesiality
+	AND s.NSI_SPECIALISATION_ID IS NOT NULL AND ps.ARCHIVE != 1

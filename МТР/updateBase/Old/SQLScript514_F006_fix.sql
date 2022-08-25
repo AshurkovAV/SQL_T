@@ -1,0 +1,2 @@
+UPDATE t  SET t.Id = t.IDVID
+FROM [F006] t

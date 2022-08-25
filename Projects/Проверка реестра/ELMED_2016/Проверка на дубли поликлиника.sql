@@ -1,0 +1,32 @@
+DECLARE @tab TABLE (
+	slid INT, 
+	pid INT
+)
+INSERT INTO @tab (slid, pid)
+SELECT id, pid
+FROM SLUCH AS s
+WHERE s.id IN (
+SELECT MAX(s.id)  -- p.FAM, p.IM, p.OT, p.DR, s.DS1, cast(s.DATE_1 AS DATE), CAST(s.DATE_2 AS DATE), s.IDDOKTO, COUNT(*)
+FROM SLUCH AS s
+JOIN PACIENT AS p ON p.ID = s.PID
+WHERE s.SCHET_ID = 2057
+AND s.USL_OK = 3
+GROUP BY p.FAM, p.IM, p.OT, CAST(p.DR AS DATE), s.DS1, cast(s.DATE_1 AS DATE), CAST(s.DATE_2 AS DATE), s.IDDOKTO
+HAVING COUNT(*) > 1)
+
+SELECT * from @tab
+
+--SELECT *
+--FROM PACIENT AS p
+--JOIN SLUCH AS s ON s.PID = p.ID
+--WHERE p.FAM = 'анпхянбю' AND p.IM = 'яберкюмю' AND p.OT = 'бкюдхлхпнбмю'
+--AND p.SCHET_ID = 1026
+--AND s.IDDOKTo = 82
+
+--SELECT *
+--FROM SLUCH AS s
+--WHERE s.PID = 2072095
+
+DELETE FROM USL WHERE SLID IN (SELECT slid FROM @tab)
+DELETE FROM SLUCH WHERE id IN (SELECT slid FROM @tab)--2269623
+DELETE FROM PACIENT WHERE ID IN ((SELECT pid FROM @tab))

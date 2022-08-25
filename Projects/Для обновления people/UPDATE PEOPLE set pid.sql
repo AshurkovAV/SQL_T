@@ -1,0 +1,6 @@
+UPDATE PEOPLE
+SET PID = t.id
+FROM PEOPLE AS p
+INNER JOIN [SQL_NACH].[srz_mini].[dbo].[PEOPLE] t ON p.FAM = t.FAM AND p.IM = t.IM  AND p.OT = t.OT AND p.DR = t.DR
+WHERE p.id NOT IN (SELECT id FROM people_dubl) AND 
+ t.FAM IS NOT NULL AND t.IM IS NOT NULL AND t.OT IS NOT NULL AND  t.DR is not null

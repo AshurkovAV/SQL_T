@@ -1,0 +1,1 @@
+INSERT [dbo].[globalScope] ([ScopeID], [Name]) VALUES (9, N'Законченный случай')

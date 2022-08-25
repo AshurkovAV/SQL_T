@@ -1,0 +1,6 @@
+DECLARE @dateF DATETIME = '20161229'
+SELECT YEAR(p.dr), p.w , COUNT(*)
+FROM [AttachedPeople_ONLINE] p
+WHERE p.HID = 17 AND p.DSTOP IS NULL
+AND DATEDIFF(dd, p.dr, @dateF)/365.2524 <= 18
+GROUP BY YEAR(p.dr), p.w 
