@@ -1,4 +1,4 @@
-declare @p1 int =9070
+declare @p1 int =20292
 
 if OBJECT_ID('ztemp_digCdelete') is not null drop table ztemp_digCdelete
 SELECT dzo.ID izslid, dso.ID slid, dzo.D3_PID, dzo.EXP_COMENT, p.FAM, p.im, p.OT, p.DR, p.NPOLIS

@@ -1,4 +1,4 @@
-declare @p1 int = 9070
+declare @p1 int = 20292
 
 delete s
 from D3_SL_OMS s where s.id in (

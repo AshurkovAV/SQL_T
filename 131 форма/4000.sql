@@ -2,10 +2,10 @@ Select DISTINCT
  o.[NameWithID] [вид дисп]					
  , ddo.DS	[Диагноз в соответствии с МКБ-10]
 				
- , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <56 then 'жен младше 56'					
-		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >55 then 'жен старше 55' 			
-		when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <61 then 'муж младше 61'			
-		when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >60 then 'муж старше 60' end [пол_возраст]			
+ , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <57 then 'жен младше 57'					
+		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >56 then 'жен старше 56' 			
+		when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <62 then 'муж младше 62'			
+		when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >61 then 'муж старше 61' end [пол_возраст]			
  --,zs.id					
  --,p.W as [Пол]					
   ,count(zs.id) [количество]					
@@ -24,20 +24,20 @@ left JOIN D3_DSS_OMS AS ddo ON ddo.D3_SLID = s.ID
 --left join Yamed_Spr_UslCode y on y.ID=usl.vid_vme					
 left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION					
 where sch.CODE_MO=460026					
-	and sch.year=2022 and sch.month=4
+	and sch.year=2023 and sch.month=8
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт				
 	and isnull(zs.PR_NOV,0)=0 --подано впервые				
 	AND ddo.DS IS NOT null				
 	group by  o.[NameWithID]				
 			, ddo.DS	
 					
-            , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <56 then 'жен младше 56'					
-					when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >55 then 'жен старше 55' 
-					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <61 then 'муж младше 61'
-					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >60 then 'муж старше 60' end 
+            , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <57 then 'жен младше 57'					
+					when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >56 then 'жен старше 56' 
+					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <62 then 'муж младше 62'
+					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >61 then 'муж старше 61' end 
 			order by  o.[NameWithID]		
 			, ddo.DS	
-            , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <56 then 'жен младше 56'					
-					when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >55 then 'жен старше 55' 
-					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <61 then 'муж младше 61'
-					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >60 then 'муж старше 60' end 
+            , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <57 then 'жен младше 57'					
+					when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >56 then 'жен старше 56' 
+					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <62 then 'муж младше 62'
+					when p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >61 then 'муж старше 61' end 

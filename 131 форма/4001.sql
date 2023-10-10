@@ -17,7 +17,7 @@ left JOIN D3_DSS_OMS AS ddo ON ddo.D3_SLID = s.ID
 --left join Yamed_Spr_UslCode y on y.ID=usl.vid_vme					
 left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION					
 where sch.CODE_MO=460026					
-	and sch.year=2022 and sch.month=4
+	and sch.year=2023 and sch.month=8
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт				
 	and isnull(zs.PR_NOV,0)=0 --подано впервые				
 	AND ddo.ID IS null			

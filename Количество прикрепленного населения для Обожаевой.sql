@@ -1,0 +1,9 @@
+DECLARE @d DATETIME = GETDATE()
+
+SELECT w, COUNT(*)
+FROM ATTP_People AS ap
+WHERE ap.PrMo = 460026 
+AND ap.[Active] = 1 AND ap.Ds IS NULL
+AND  (DATEDIFF(dd, DR, @d)/365.2524) > 18
+GROUP BY ap.W
+

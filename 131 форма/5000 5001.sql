@@ -1,8 +1,8 @@
 Select DISTINCT		
  o.[NameWithID] [вид дисп]		
 		
- , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <60 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <65 then 'трудоспособные'		
-		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=60 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=65 then 'старше трудоспособного' 
+ , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <61 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <66 then 'трудоспособные'		
+		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=61 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=66 then 'старше трудоспособного' 
 	 end [признак трудоспособности]	
 	, left(s.ds1,3)	[Диагноз]
 	, case when dn =1 THEN '1 состоит'
@@ -24,14 +24,14 @@ join D3_SL_OMS s on s.D3_ZSLID=zs.ID
 left join v017 on v017.IDDR=zs.RSLT_D		
 left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION		
 where sch.CODE_MO=460026					
-	and sch.year=2022 and sch.month=4
+	and sch.year=2023 and sch.month=8
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт	
 	and isnull(zs.PR_NOV,0)=0 --подано впервые	
 		
 	group by   o.[NameWithID] 	
 		
- , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <60 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <65 then 'трудоспособные'		
-		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=60 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=65 then 'старше трудоспособного' 
+ , case when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <61 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) <66 then 'трудоспособные'		
+		when p.w=2 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=61 or p.w=1 and [dbo].[f_GetAge] (P.DR,ZS.DATE_Z_1) >=66 then 'старше трудоспособного' 
 	 end	
 	, left(s.ds1,3)	
 	, dn	

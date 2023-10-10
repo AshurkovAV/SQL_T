@@ -1,0 +1,17 @@
+UPDATE ada SET DATEEND = '20230216', REASEND = 4, OrgTypeEnd = 3, OrgCodeEnd = 460026
+
+FROM ATTP_DISP_ACCOUNT AS ada
+JOIN ATTP_People AS ap ON ap.ID = ada.PID
+WHERE ap.PrMo = 460026 AND ap.[Active] = 1
+AND ap.Ds IS NULL
+AND ada.DATEEND IS NULL
+AND ada.MO = 460026
+AND ada.PRVS IN (100, 29, 16,49,65,68,69,71,72,78,91,96,81,93,97)
+
+--AND (YEAR(ada.DATEBEG) IN (2020, 2021) OR (YEAR(ada.DATEBEG) IN (2022) AND MONTH(ada.DATEBEG) IN (1,2,3))) 
+
+--SELECT ap.Fam, ap.Im, ap.Ot, ap.Dr, ada.*
+--FROM ATTP_DISP_ACCOUNT AS ada
+--JOIN ATTP_People AS ap ON ap.ID = ada.PID
+--WHERE 
+--ada.ID = 697270

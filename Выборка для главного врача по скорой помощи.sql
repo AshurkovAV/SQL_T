@@ -1,0 +1,26 @@
+SELECT replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace([ìî], ' - Ó÷.13', ''), ' - Ó÷.1', ''), ' - Ó÷.3', ''), ' - Ó÷.4', ''), ' - Ó÷.29', ''), ' - Ó÷.27', '')
+, ' - Ó÷.9', ''), ' - Ó÷.6', ''), ' - Ó÷.20', '')
+, ' - Ó÷.23', ''), ' - Ó÷.28', ''), ' - Ó÷.8', '')
+, ' - Ó÷.25', ''), ' - Ó÷.6', ''), ' - Ó÷.5', '')
+, ' - Ó÷.7', ''), ' - Ó÷.21', ''), ' - Ó÷.22', '')
+, ' - Ó÷.26', ''), ' - Ó÷.2', ''), ' - Ó÷.24', '')
+, 'À1', 'À'), 'À2', 'À'), 'À3', 'À'), 'À4', 'À'), 'À5', 'À'), 'À6', 'À'), 'À7', 'À'), 'À8', 'À'), 'À9', 'À'), 'À0', 'À'), [ïàöèåíò], COUNT(*)kol, 1 as k,
+CASE WHEN COUNT(*) <10 THEN 'ÄÎ 10'
+	 WHEN COUNT(*) >= 10 AND  COUNT(*) < 20 THEN 'C 10 ÄÎ 20'
+	 WHEN COUNT(*) >= 20 AND  COUNT(*) < 30 THEN 'C 20 ÄÎ 30'
+	 WHEN COUNT(*) >= 30 AND  COUNT(*) < 40 THEN 'C 30 ÄÎ 40'
+	 WHEN COUNT(*) >= 40 AND  COUNT(*) < 50 THEN 'C 40 ÄÎ 50'
+	 WHEN COUNT(*) >= 50 THEN '50 è áîëåå'
+	 ELSE cast(COUNT(*) AS NVARCHAR(10))  END 
+
+FROM [15112022chast_call_polik]
+GROUP BY  replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace([ìî], ' - Ó÷.13', ''), ' - Ó÷.1', ''), ' - Ó÷.3', ''), ' - Ó÷.4', ''), ' - Ó÷.29', ''), ' - Ó÷.27', '')
+, ' - Ó÷.9', ''), ' - Ó÷.6', ''), ' - Ó÷.20', '')
+, ' - Ó÷.23', ''), ' - Ó÷.28', ''), ' - Ó÷.8', '')
+, ' - Ó÷.25', ''), ' - Ó÷.6', ''), ' - Ó÷.5', '')
+, ' - Ó÷.7', ''), ' - Ó÷.21', ''), ' - Ó÷.22', '')
+, ' - Ó÷.26', ''), ' - Ó÷.2', ''), ' - Ó÷.24', '')
+, 'À1', 'À'), 'À2', 'À'), 'À3', 'À'), 'À4', 'À'), 'À5', 'À'), 'À6', 'À'), 'À7', 'À'), 'À8', 'À'), 'À9', 'À'), 'À0', 'À'), [ïàöèåíò]
+
+--SELECT *
+--FROM [15112022chast_call_polik]

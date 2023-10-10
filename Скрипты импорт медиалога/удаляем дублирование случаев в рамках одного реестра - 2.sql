@@ -1,4 +1,4 @@
-declare @p1 int=9070
+declare @p1 int=20292
 
 if OBJECT_ID('ztemp_digCdelete') is not null drop table ztemp_digCdelete
 SELECT dzo.ID izslid, dso.ID slid, dzo.D3_PID, dzo.EXP_COMENT, p.FAM, p.im, p.OT, p.DR, p.NPOLIS
@@ -33,7 +33,7 @@ from (
           from D3_ZSL_OMS zsl
           join D3_SL_OMS sl on zsl.id=sl.D3_ZSLID and  OS_SLUCH_REGION is null and zsl.USL_OK in (3) 
           AND zsl.IDSP<>28
-          join D3_PACIENT_OMS pa on pa.ID = zsl.D3_PID  and pa.D3_SCID=@p1
+          join D3_PACIENT_OMS pa on pa.ID = zsl.D3_PID AND pa.D3_SCID=@p1
           --ищем полные дубли
           join(  select   pa.FAM
                   ,pa.IM
