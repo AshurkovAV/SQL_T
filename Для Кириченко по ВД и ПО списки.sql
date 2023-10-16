@@ -8,7 +8,7 @@ JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID --AND dso2.NSCHET LIKE '%сдан%'
 LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
-WHERE dzo.OS_SLUCH_REGION IN (50) 
+WHERE dzo.OS_SLUCH_REGION IN (47,49) 
 --AND dso2.[MONTH] IN (9) 
 AND dso2.[YEAR] = 2023
 AND dso2.NSCHET NOT LIKE '%ошибк%'

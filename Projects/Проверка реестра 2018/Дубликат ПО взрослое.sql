@@ -5,7 +5,7 @@ name nvarchar(100)
 --if OBJECT_ID('ztemp_PO_dubl1') is not null drop table ztemp_PO_dubl1
 --if OBJECT_ID('ztemp_PO_dubl2') is not null drop table ztemp_PO_dubl2
 
-DECLARE @D3_SCID INT = 20570
+DECLARE @D3_SCID INT = 20743
 DECLARE @OsobSluch INT  = 49
 
 insert into @tab (id, name)

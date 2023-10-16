@@ -1,4 +1,4 @@
-DECLARE @D3_SCID INT = 20571
+DECLARE @D3_SCID INT = 20744
 DECLARE @OsobSluch INT  = 47
 
 declare @tab table (
