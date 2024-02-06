@@ -1,7 +1,8 @@
 if OBJECT_ID('ztemp_stacionar') is not null drop table ztemp_stacionar
+GO
 --declare @p1 int = 20530
 DECLARE @year INT = 2023
-DECLARE @month INT = 9
+DECLARE @month INT = 12
 
 SELECT zsl_id, sl_id, D3_PID, t_pol.DATE_1, t_pol.DATE_2, t_pol.OS_SLUCH_REGION
 INTO ztemp_stacionar

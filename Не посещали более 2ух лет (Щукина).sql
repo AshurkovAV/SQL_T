@@ -1,3 +1,4 @@
+DROP TABLE ztemp_prikrep_not_visit
 SELECT t.*
 INTO ztemp_prikrep_not_visit
 FROM(
@@ -11,9 +12,9 @@ LEFT JOIN(
 		JOIN D3_ZSL_OMS AS dzo     ON dzo.D3_SCID  = dso2.ID
 		JOIN D3_PACIENT_OMS AS dpo ON dpo.ID       = dzo.D3_PID
 		JOIN D3_SL_OMS AS dso      ON dso.D3_ZSLID = dzo.ID
-	WHERE (dso2.[YEAR] = 2021 AND dso2.[MONTH] IN (8,9,10,11,12)) OR 
+	WHERE (dso2.[YEAR] = 2021 AND dso2.[MONTH] IN (11,12)) OR 
 	       dso2.[YEAR] = 2022 OR 
-	      (dso2.[YEAR] = 2023 AND dso2.[MONTH] IN (1,2,3,4,5,6,7))
+	      (dso2.[YEAR] = 2023 AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9,10))
          ) AS t2 ON t2.FAM = t.FAM AND t2.IM = t.IM AND t2.OT = t.OT AND t2.DR = t.DR
 WHERE t2.FAM IS NULL
 

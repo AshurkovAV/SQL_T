@@ -1,3 +1,8 @@
+DROP TABLE ztemp_du_051023_2
+DROP TABLE ztemp_dd_po_doc
+DROP TABLE ztemp_dd_po_doc_1
+DROP TABLE ztemp_du_051023_1
+
 SELECT MAX(d.id)id, d.FAM, d.IM, d.OT, d.dr
 INTO ztemp_du_051023_2
 FROM
@@ -6,7 +11,7 @@ FROM D3_ZSL_OMS AS dzo
 JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
-WHERE dso2.[YEAR] = 2023 AND dso2.[MONTH] = 9
+WHERE dso2.[YEAR] = 2023 AND dso2.[MONTH] = 10
 AND dzo.OS_SLUCH_REGION IN (47,49, 50)
  AND dso.PROFIL IN (97, 29, 53)
 AND( dso.DS1 IN ('I27.0', 'I27.2', 'I27.8', 'I50.0', 'I50.1', 'I50.9', 'I51.4', 'I69.0','I69.1','I69.2','I69.3','I69.4','I67.8', 'I65.2',
@@ -116,13 +121,13 @@ GROUP BY d.FAM, d.IM, d.OT, d.dr
 
 SELECT d.FAM, d.IM, d.OT, d.dr, d.DS1, Min(d.DATE_Z_2)DATE_Z_2, d.IDDOKT, MIN(d.OS_SLUCH_REGION)OS_SLUCH_REGION
 INTO ztemp_dd_po_doc
-FROM ztemp_du_051023_1 t
-JOIN (SELECT dpo.*, dpo.FAM, dpo.IM, dpo.OT, dr, dso.DS1, dzo.DATE_Z_2, dzo.OS_SLUCH_REGION, dso.IDDOKT
+FROM ztemp_du_051023_2 t
+JOIN (SELECT dpo.FAM, dpo.IM, dpo.OT, dr, dso.DS1, dzo.DATE_Z_2, dzo.OS_SLUCH_REGION, dso.IDDOKT
 FROM D3_ZSL_OMS AS dzo
 JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
-WHERE dso2.[YEAR] = 2023 AND dso2.[MONTH] = 9
+WHERE dso2.[YEAR] = 2023 AND dso2.[MONTH] = 10
 AND dzo.OS_SLUCH_REGION IN (47,49, 50)
  AND dso.PROFIL IN (97, 29, 53)
 AND( dso.DS1 IN ('I27.0', 'I27.2', 'I27.8', 'I50.0', 'I50.1', 'I50.9', 'I51.4', 'I69.0','I69.1','I69.2','I69.3','I69.4','I67.8', 'I65.2',

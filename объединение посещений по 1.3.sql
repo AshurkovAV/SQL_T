@@ -9,7 +9,7 @@ CREATE TABLE ztemp_13 (
 	[PROFIL] [int] NULL,
 	datez_1 DATETIME,
 	datez_2 DATETIME)
-DECLARE @p INT = 20568
+DECLARE @p INT = 20777
 
 DECLARE @zsl_id_1 INT, @sl_id_1 INT,  @NPOLIS NVARCHAR(20), @NPOLIS_1 NVARCHAR(20), @dr DATETIME, @ds1 [nvarchar](5), @ds1_1 [nvarchar](3), @PROFIL [int], @PROFIL_1 [int]
 
@@ -45,26 +45,19 @@ BEGIN
 		AND (dzo.PR_NOV = 0 OR dzo.PR_NOV IS NULL)
 		ORDER BY  [NPOLIS], dso.DATE_1 
 		
-		PRINT @zsl_id
-		--UPDATE duo SET D3_SLID = @sl_id, D3_ZSLID = @zsl_id, D3_SLGID = @slidg 
-		--FROM D3_ZSL_OMS AS dzo
-		--JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
-		--JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
-		--JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
-		--WHERE dpo.FAM = @fam AND dpo.IM = @im AND dpo.OT = @ot AND dpo.DR = @dr 
-		--AND dpo.NPOLIS = @NPOLIS 
-		--AND dso.DS1 =  @ds1
-		--AND dso.PROFIL = @PROFIL
-		--AND dzo.D3_SCID = @p
-		--AND dso.P_CEL25 = '1.3'
-		--AND (dzo.PR_NOV = 0 OR dzo.PR_NOV IS NULL)
-				
-	
-	--INSERT INTO @ztemp_gl (ZSLG_ID,    zsl_id,   sl_id,    datez_1,     datez_2,    zsl_id29, sl_id29,  date_1,   date_2)
-	--EXEC p_join_visit @NPOLIS,@dr,@ds1,@PROFIL
-	
-	--INSERT INTO @ztemp_301_2 (ZSLG_ID,zsl_id,sl_id,[NPOLIS],[dr],[ds1],[PROFIL],datez_1,datez_2)
-	--EXEC p_join_visit_1 @NPOLIS,@dr,@ds1,@PROFIL
+		--PRINT @zsl_id
+		UPDATE duo SET D3_SLID = @sl_id, D3_ZSLID = @zsl_id, D3_SLGID = @slidg 
+		FROM D3_ZSL_OMS AS dzo
+		JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+		JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
+		JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
+		WHERE dpo.FAM = @fam AND dpo.IM = @im AND dpo.OT = @ot AND dpo.DR = @dr 
+		AND dpo.NPOLIS = @NPOLIS 
+		AND dso.DS1 =  @ds1
+		AND dso.PROFIL = @PROFIL
+		AND dzo.D3_SCID = @p
+		AND dso.P_CEL25 = '1.3'
+		AND (dzo.PR_NOV = 0 OR dzo.PR_NOV IS NULL)
 	
 	FETCH NEXT FROM vendor_cursor INTO @fam, @im, @ot, @dr, @ds1, @NPOLIS, @PROFIL
 END;

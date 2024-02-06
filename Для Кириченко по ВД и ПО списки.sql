@@ -10,7 +10,7 @@ JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID --AND dso2.NSCHET LIKE '%сдан
 LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 WHERE dzo.OS_SLUCH_REGION IN (47,49) 
 --AND dso2.[MONTH] IN (9) 
-AND dso2.[YEAR] = 2023
+AND dso2.[YEAR] = 2024
 AND dso2.NSCHET NOT LIKE '%ошибк%'
 --AND dpo.FAM = 'Матвеев'
 --AND dso.IDDOKT IN ('048-391-178 79', '034-486-289 70', '071-529-760 71', '131-058-757 34', '146-055-825 60')

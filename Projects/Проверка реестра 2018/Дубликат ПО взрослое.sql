@@ -5,7 +5,7 @@ name nvarchar(100)
 --if OBJECT_ID('ztemp_PO_dubl1') is not null drop table ztemp_PO_dubl1
 --if OBJECT_ID('ztemp_PO_dubl2') is not null drop table ztemp_PO_dubl2
 
-DECLARE @D3_SCID INT = 20743
+DECLARE @D3_SCID INT = 20975
 DECLARE @OsobSluch INT  = 49
 
 insert into @tab (id, name)
@@ -17,7 +17,7 @@ FROM [D3_ZSL_OMS] zsl
 JOIN D3_PACIENT_OMS AS p ON p.ID = zsl.D3_PID
 JOIN D3_SCHET_OMS AS s ON zsl.D3_SCID = s.ID
 LEFT JOIN (SELECT * FROM D3_SL_OMS AS ds WHERE ds.PROFIL = 97) AS ds ON zsl.ID = ds.D3_ZSLID
-WHERE  s.[YEAR] IN (2023)  AND zsl.OS_SLUCH_REGION = 49 AND s.NSCHET NOT LIKE '%ошиб%') AS t1
+WHERE  s.[YEAR] IN (2024)  AND zsl.OS_SLUCH_REGION = 49 AND s.NSCHET NOT LIKE '%ошиб%') AS t1
 INNER JOIN (
 	SELECT s.ID AS ids, zsl.ID, p.FAM, im, ot, CAST(p.DR AS DATE) dr, p.SMO, CAST(zsl.DATE_Z_1 AS DATE)DATE_Z_1, 
 (SELECT TOP 1 ysme.NameWithID FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = ds.IDDOKT) AS doc
@@ -57,6 +57,6 @@ AND t2.FAM = t1.FAM AND t2.im = t1.im AND t2.ot = t1.ot AND t2.dr = t1.dr
 update dz  set EXP_COMENT = 'МЭК - ' + t.name
 from D3_ZSL_OMS dz
 join @tab t on dz.ID = t.id
---where dz.D3_SCID = @D3_SCID
+where dz.D3_SCID = @D3_SCID
 
 
