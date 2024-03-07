@@ -1,0 +1,33 @@
+declare @p int = 44
+--if OBJECT_ID('ztemp_digCdelete') is not null drop table ztemp_digCdelete
+SELECT dzo.ID izslid, dso.ID slid, dzo.D3_PID
+--INTO ztemp_digCdelete
+FROM D3_ZSL_OMS AS dzo
+JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+WHERE dzo.D3_SCID = @p AND dso.NHISTORY IN (
+	'3467/03467',
+'3585/03585',
+'3510/03510',
+'3528/03528',
+'3465/03465',
+'3161/03161',
+'832/03346',
+'3391/03391',
+'3386/03386',
+'3435/03435',
+'3582/03582',
+'3395/03395',
+'872/03462',
+'3548/03548',
+'3398/03398',
+'3458/03458',
+'3421/03421',
+'3562/03562',
+'3604/03604',
+'3550/03550',
+'3445/03445',
+'3480/03480',
+'3306/03306',
+'3222/03222',
+'3146/03146',
+'3444/03444')

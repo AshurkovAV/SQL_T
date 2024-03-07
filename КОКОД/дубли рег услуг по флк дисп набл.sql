@@ -1,0 +1,22 @@
+ --UPDATE zs SET zs.rslt=315--, idsp=29
+ SELECT p.fam, p.im,p.ot,ds1,zs.sumv, s.tarif, s.SUM_M, s.profil, s.P_CEL25, isnull(p.npolis, p.ENP) npolis, OS_SLUCH_REGION, idsp , zs.id, s.prvs,s.DATE_1, date_2, prvs, iddokt--, usl.ID, usl.KOL_USL,usl.CODE_USL
+
+FROM [D3_SCHET_OMS] sch                  
+  inner join D3_PACIENT_OMS p on p.d3_scid=sch.id AND sch.id=9382
+  inner join D3_ZSL_OMS zs on zs.D3_PID=p.id  and zs.[D3_SCID]=sch.id    --and zs.usl_ok in (1,2) --AND zs.id=20906231
+ join D3_SL_OMS s on s.D3_ZSLID=zs.ID  --AND s.P_CEL25= '1.0' 
+ --JOIN D3_USL_OMS AS usl ON usl.D3_SLID=s.ID
+-- WHERE usl.KOL_USL IS  NULL
+ WHERE ZSL_ID IN ('F05BA724-EB11-07AD-E053-A9690801C7C1',
+'F05BBA1A-31BA-07B3-E053-A969080183D6',
+'F05BDA3F-FA08-07B7-E053-A96908015608',
+'F05BA7B4-5E29-07B1-E053-A96908018162',
+'F06AB043-4DFD-07DD-E053-A96908016F53',
+'F05BBA1A-31FC-07B3-E053-A969080183D6',
+'F05BDA3F-F9F4-07B7-E053-A96908015608',
+'F05BA724-EB2D-07AD-E053-A9690801C7C1',
+'F05BA7B4-5E49-07B1-E053-A96908018162',
+'F06AB043-4E3E-07DD-E053-A96908016F53'
+)
+ ORDER BY p.npolis
+ 

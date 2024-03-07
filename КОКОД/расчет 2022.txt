@@ -1,0 +1,457 @@
+Оля Новая Фонд, [03.02.2022 18:55]
+--16045
+--declare @p1 int =4545;
+with z as (
+select distinct-- DATEDIFF(DAY, sl.DATE_1, sl.DATE_2), ROW_NUMBER () OVER (partition by zsl.id  order by sl.DATE_2 desc),
+zsl.ZSL_ID,zsl.id,zsl.SUMV,sl.id as sslid,sl.sum_m, 
+--------------------------------------------------------------------------------------
+          cast(cast(ROUND( case when year(sl.date_2)<=2021 then 
+            convert(numeric(12,2),bt.BZTSZ)    
+                   *
+           ks.KOEF_Z
+                     *
+                     ks.KOEF_UP--
+          -- case when calc.up is null then ks.KOEF_UP else 1 end
+                     *
+                     ks.KOEF_D
+                     *
+                     case 
+                            when isnull(ks.IT_SL,0)=0
+                            then 1
+                            else ks.IT_SL
+                     end
+                     *
+           CASE 
+            WHEN  zsl.usl_ok=2 
+                or ks.N_KSG in (  select [IDKSG] 
+                                from CalNotKus
+                                Where sl.DATE_2 between TBEG and TEND
+                                )
+            THEN 1.00
+            ELSE ISNULL(ks.KOEF_U,1.00) 
+           END
+           *
+           -----------------------------------------------------------------------------------------
+                      case when zsl.USL_OK=1 then
+          
+        --------------------------------------------------------------------------
+        case when year(sl.date_2)<=2020     then
+          case when  
+                         -------------------для дородовых госпитализаций отдельный расчет 
+               (
+               ( ks.N_KSG in ('st02.001') and  zsl.RSLT in (101,103,104) and  ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>5   or ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>1 and sl.ds1 in ('O14.1','O34.2 ','O36.3','O36.4','O42.2'))       )) 
+                or
+                         (
+                 ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 
+                 and 
+                DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3
+              
+                ) 
+                or 
+                (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1 and  RSLT in (101,103,104) and 
+                DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3
+              
+                ) 
+
+                or 
+                (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1 and  RSLT not in (101,103,104) and 
+                DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3
+                and year(zsl.date_z_2)=2021
+              
+                ) 
+
+
+
+                or 
+                (DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3 and calc.kd is not null and  RSLT in (101,103,104))
+                
+    
+                       )
+             and calc.diag is null
+            then case when ks.N_KSG  in ('st12.013.2') and DATE_2>'20201031' then 
+                                                                             case when  DATEDIFF(DAY, DATE_1, DATE_2) between 4 and 7 then  0.5  
+                                                 when DATEDIFF(DAY, DATE_1, DATE_2) between 8 and 10 then 0.7
+                                                  when DATEDIFF(DAY, DATE_1, DATE_2)>10 then 1
+                                                  end
+                                                                                else  1 end
+
+            
+                else 
+                   case
+                 ---- zsl.RSLT not in (101,103)
+    when  ( ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3 and calc.kd is null ) or ( (zsl.RSLT not in (101,103,104) or  calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3)
+                                                 )   and calc.tip='ter' then 0.2
+
+    when   (  ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3 and calc.kd is null)  or ( (zsl.RSLT not in (101,103,104) or  calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3) )  and calc.tip='hir' then 0.8
+
+Оля Новая Фонд, [03.02.2022 18:55]
+when  ( (zsl.RSLT not in (101,103,104) or calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3)   and calc.tip='ter' then case when ks.N_KSG  in ('st12.013.2') and DATE_2>'20201031'
+                                                                                                      
+                                                      then case when  DATEDIFF(DAY, DATE_1, DATE_2) between 4 and 7 then  0.5  
+                                                             when DATEDIFF(DAY, DATE_1, DATE_2) between 8 and 10 then 0.7
+                                                          when DATEDIFF(DAY, DATE_1, DATE_2)>10 then 0.5
+                                                                                                          end
+                                                              else   0.5 end
+                    
+    when  (  (zsl.RSLT not in (101,103,104)  or  calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3)     and calc.tip='hir' then 0.9
+
+                    
+                  
+             end 
+          end
+    --        end  -----------------------------------------------------------------------------------------------
+
+                       else 
+             
+              case when  
+               (
+               ( ks.N_KSG in ('st02.001') and  zsl.RSLT in (101,103) and  ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>5   or ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>1 and sl.ds1 in ('O14.1','O34.2 ','O36.3','O36.4','O42.2'))       )) 
+                or
+                ( (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1 
+                or 
+                
+                (COUNT(sl.id) OVER (partition by m1.class, zsl.ID) > 1 
+                           and 
+                    EXISTS
+                    (
+                    select s.D3_ZSLID
+                    from  D3_SL_OMS AS s
+                    where s.D3_ZSLID=zsl.ID 
+                     and left (s.ds1,1)=left (sl.ds1,1)
+                     and s.id<>sl.id
+                     and s.DATE_1=sl.DATE_2
+                      )
+
+
+                    )
+
+                ) ----изменение!!!!!!!!
+                and  RSLT in (101,103) 
+                and DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3
+                ) 
+                or 
+                (
+                (DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3  or 
+                
+                (COUNT(sl.id) OVER (partition by m1.class, zsl.ID) > 1
+                and 
+                    EXISTS
+                    (
+                    select s.D3_ZSLID
+                    from  D3_SL_OMS AS s
+                    where s.D3_ZSLID=zsl.ID 
+                     and left (s.ds1,1)=left (sl.ds1,1)
+                     and s.id<>sl.id
+                     and s.DATE_1=sl.DATE_2
+                      )
+
+
+                )
+                )
+                and calc.kd is not null 
+                and  RSLT in (101,103)
+                and  ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1
+                ) 
+                or 
+                (
+                (COUNT(sl.id) OVER (partition by m1.class, zsl.ID) > 1
+                and 
+                    EXISTS
+                    (
+                    select s.D3_ZSLID
+                    from  D3_SL_OMS AS s
+                    where s.D3_ZSLID=zsl.ID 
+                     and left (s.ds1,1)=left (sl.ds1,1)
+                     and s.id<>sl.id
+                     and s.DATE_1=sl.DATE_2
+                      ))
+                and calc.kd is not null 
+                and  RSLT in (101,103)
+                and  ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1
+
+Оля Новая Фонд, [03.02.2022 18:55]
+)
+                )
+              and calc.diag is null
+            then 1
+                else 
+                   case
+                 ---- zsl.RSLT not in (101,103)
+    when ( (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3) or ( ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3 and calc.kd is null ) or ( (zsl.RSLT not in (101,103) or   calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3) ) )   and calc.tip='ter' then 0.2
+
+    when(  (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3)  or ( ( DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3 and calc.kd is null)  or ( (zsl.RSLT not in (101,103)  or  calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)<=3) ) ) and calc.tip='hir' then 0.8 
+
+    when(  (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3) or ( ( (zsl.RSLT not in (101,103) or calc.diag is not null ) and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3) ))  and calc.tip='ter' then 0.5
+                    
+    when(  (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3) or   (  (zsl.RSLT not in (101,103)  or  calc.diag is not null )  and  DATEDIFF(DAY, sl.DATE_1, sl.DATE_2)>3 ) )  and calc.tip='hir' then 0.9
+
+                    
+                    end
+              end 
+          end
+    ---------------------------------------------------------
+    -------------------------------------------------------
+    when zsl.USL_OK=2 then
+         
+      case when year(sl.date_2)<=2020     then
+          case when  
+                     (
+               (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and 
+                sl.kd>3
+              
+                ) 
+                or 
+
+                (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1 and  RSLT in (201,203,204) and 
+                sl.kd>3
+              
+                ) 
+                or 
+                (sl.kd<=3 and calc.kd is not null and  RSLT in (201,203,204)) 
+                )
+                  and calc.diag is null
+            then 1 
+            
+                else 
+                   case
+                 ---- zsl.RSLT not in (101,103)
+    when ( ( sl.kd<=3 and calc.kd is null ) or ( ( zsl.RSLT not in (201,203,204) or calc.diag is not null ) and  sl.kd<=3) )    and calc.tip='ter' then 0.2
+
+    when( (  sl.kd<=3 and calc.kd is null)  or ( zsl.RSLT not in (201,203,204) and  sl.kd<=3) )  and calc.tip='hir' then 0.8 
+
+    when (zsl.RSLT not in (201,203,204) or  calc.diag is not null ) and sl.kd>3   and calc.tip='ter' then  0.5
+                    
+    when zsl.RSLT not in (201,203,204) and  sl.kd>3   and calc.tip='hir' then 0.9
+
+                    
+                   end
+             end 
+                       else 
+             
+              case when  
+                (
+                (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1 and  RSLT in (201,203) and 
+                sl.kd>3
+                ) 
+                or 
+                (sl.kd<=3 and calc.kd is not null and  RSLT in (201,203)) 
+                )
+                and calc.diag is null
+            then 1
+                else 
+                   case
+                 ---- zsl.RSLT not in (101,103)
+    when ( ( ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  sl.kd<=3)  or ( ( sl.kd<=3 and calc.kd is null ) or ( (zsl.RSLT not in (201,203)  or  calc.diag is not null ) and  sl.kd<=3) ) )    and calc.tip='ter' then 0.2
+
+    when( (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  sl.kd<=3)  or ( ( sl.kd<=3 and calc.kd is null)  or ( (zsl.RSLT not in (201,203) or  calc.diag is not null ) and  sl.kd<=3) ) ) and calc.tip='hir' then 0.8
+
+Оля Новая Фонд, [03.02.2022 18:55]
+when( (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  sl.kd>3) or ( ( (zsl.RSLT not in (201,203)  or  calc.diag is not null ) and  sl.kd>3) ))  and calc.tip='ter' then 0.5
+                    
+    when( (ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)>1 and  sl.kd>3) or (  ( (zsl.RSLT not in (201,203) or  calc.diag is not null ) and  sl.kd>3) ))   and calc.tip='hir' then 0.9
+
+                    
+                    end
+              end 
+          end
+
+      
+
+       --------------------------------
+
+
+
+
+       end
+
+     
+     +
+     isnull((  SELECT SUM(isnull(rr.TARIF,0)*u.kol_usl)  
+          FROM D3_USL_OMS u
+          left JOIN CalcUslTarif rr ON rr.UMP=zsl.usl_ok and rr.CODE_USL = u.CODE_USL AND sl.DATE_2 BETWEEN rr.TBEG AND rr.TEND --платные услуги
+           WHERE u.D3_SLID = sl.ID
+        ),0)
+     +
+     isnull((  SELECT  SUM(isnull(gg.SUM_G*isnull(u.kol_usl,1),0))
+          FROM D3_USL_OMS u
+          left JOIN CalcGemTarif gg ON gg.UMP=zsl.usl_ok and gg.CodeUSL = u.VID_VME AND sl.DATE_2 BETWEEN gg.DATEBEG AND gg.DATEEND--гемодиализ
+          WHERE u.D3_SLID = sl.ID
+        ),0)
+        else
+    (convert(numeric(12,2),bt.BZTSZ) * ks.KOEF_Z *( (1-isnull(calc.lek,1)) + isnull(calc.lek,1)*isnull(case when calc.up is not null then 1 else ks.koef_up end,1)* CASE WHEN zsl.usl_ok=2 or calc.up is not null THEN 1.00  ELSE ISNULL(ks.KOEF_U,1.00) END  * ks.KOEF_D) +convert(numeric(12,2),bt.BZTSZ)* ks.KOEF_D  * case when isnull(ks.IT_SL,0)=0 then 0 else ks.IT_SL end )
+--------------------------------------------------------------------------------------------------------------------------------------------
+*case when             (                    
+                                            (zsl.RSLT not in (101,109,201,209) and  ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)=1) --превран по результату
+                                  or 
+                      (sl.kd<=3 and calc.kd is null) --по дням
+                      or 
+                      (  ROW_NUMBER () OVER (partition by zsl.id order by sl.DATE_2 desc)<>1
+                      and ( COUNT(sl.id) OVER (partition by m1.class, zsl.ID) <2
+                          
+                          or 
+                        not (
+                            EXISTS ----Проведение медицинской реабилитации пациента после завершения лечения в той же медицинской организации по поводу заболевания, по которому осуществлялось лечение
+                        (
+                        select s.D3_ZSLID
+                        from  D3_SL_OMS AS s
+                        JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                        where s.D3_ZSLID=zsl.ID 
+                          and left (s.ds1,1)=left (sl.ds1,1)
+                          and s.id<>sl.id
+                          and s.DATE_1=sl.DATE_2
+                          and left(ksg.n_ksg,5) in ('ds37.','st37.') 
+                          )
+                        or
+                    
+                        (  ks.n_ksg in ('st19.038','ds19.028')   ----------Оказание медицинской помощи, связанной с установкой, заменой порт-системы (катетера) для лекарственной терапии злокачественных новообразований с последующим проведением лекарственной терапии 
+                        and EXISTS
+                      (
+                      select s.D3_ZSLID
+                      from  D3_SL_OMS AS s
+                      JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                      where s.D3_ZSLID=zsl.ID 
+                        --and left (s.ds1,1)=left (sl.ds1,1)
+                        and s.id<>sl.id
+                        and s.DATE_1=sl.DATE_2
+                        and left( ksg.n_ksg,5) in ('st19.','ds19.') 
+                        )
+                                    
+                        )            
+                                    
+              -----------------------------------------------------------------------------------------------
+                  or
+
+Оля Новая Фонд, [03.02.2022 18:55]
+(   ks.n_ksg in ('st19.038','ds19.028')  ------терапии или после хирургического лечения в рамках одной госпитализации;
+                      and EXISTS
+                    (
+                    select s.D3_ZSLID
+                    from  D3_SL_OMS AS s
+                    JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                    where s.D3_ZSLID=zsl.ID 
+                      --and left (s.ds1,1)=left (sl.ds1,1)
+                      and s.id<>sl.id
+                      and s.DATE_2=sl.DATE_1
+                      and ksg.n_ksg in (SELECT distinct k_ksg FROM [CalcKsg] where tip='hir' )
+                      )
+                                    
+                      )
+                -----------------------------------------------------------------------------------------------                    
+                                    
+                    -----------------------------------------------------------------------------------------------
+                  or 
+                  (   ks.n_ksg='st02.001' and sl.kd>=6 
+                      and    
+                      EXISTS ----Дородовая госпитализация пациентки в отделение патологии беременности в случае пребывания в отделении патологии беременности в течение 6 дней и более с последующим родоразрешением
+                    (
+                  select s.D3_ZSLID
+                  from  D3_SL_OMS AS s
+                  JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                  where s.D3_ZSLID=zsl.ID 
+                    and s.id<>sl.id
+                    and s.DATE_1=sl.DATE_2
+                    and ksg.n_ksg in ('st02.003','st02.004') 
+                    )
+                                    
+                    )
+                          -----------------------------------------------------------------------------------------------                      
+      -----------------------------------------------------------------------------------------------
+                  or 
+                    (   ks.n_ksg in ('ds36.007','st36.016')
+                      and    
+                    EXISTS ----Проведение первой иммунизации против
+                      --респираторно-синцитиальной вирусной инфекции в период
+                      -- госпитализации по поводу лечения нарушений, возникающих в перинатальном периоде, являющихся показанием к иммунизации;  
+                      (
+                  select s.D3_ZSLID
+                  from  D3_SL_OMS AS s
+                  JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                  where s.D3_ZSLID=zsl.ID 
+                    and s.id<>sl.id
+                    --and s.DATE_1=sl.DATE_2
+                    and ksg.n_ksg in ('st17.005','st17.006','st17.007','ds17.001')
+
+                    )
+                                    
+                    )
+        -----------------------------------------------------------------------------------------------      
+              -----------------------------------------------------------------------------------------------
+                  or 
+                    (      ks.n_ksg in ('st36.013','st36.014','st36.015') or
+                    EXISTS ----Проведение антимикробной терапии инфекций, вызванных полирезистентными микроорганизмами.  
+                      (
+                  select s.D3_ZSLID
+                  from  D3_SL_OMS AS s
+                  JOIN D3_KSG_KPG_OMS ksg  ON s.id = ksg.D3_SLID
+                  where s.D3_ZSLID=zsl.ID 
+                    and s.id<>sl.id
+                    and ksg.n_ksg in ('st36.013','st36.014','st36.015')
+
+Оля Новая Фонд, [03.02.2022 18:55]
+)
+                                    
+                    )
+                    )
+                    )
+    -------------------------------------------------------------------------------------------------      
+          )
+                                 
+    ) --по переводу из одного отделения  другое 
+                        
+                      then 
+                    case when calc.tip ='ter' and sl.kd<=3 then 0.2 
+                        when calc.tip ='ter' and sl.kd>=3 then 0.5 
+                        when calc.tip ='hir' and sl.kd<=3 then 0.8 
+                        when calc.tip ='hir' and sl.kd>=3 then 0.9
+                        else 0 --!!!!!!!
+                        end 
+                  else 1
+                  ----)
+    
+     
+
+          end 
+          +
+     isnull((  SELECT  SUM(isnull(gg.SUM_G*isnull(u.kol_usl,1),0))
+          FROM D3_USL_OMS u
+          left JOIN CalcGemTarif gg ON gg.UMP=zsl.usl_ok and gg.CodeUSL = u.VID_VME AND sl.DATE_2 BETWEEN gg.DATEBEG AND gg.DATEEND--гемодиализ
+          WHERE u.D3_SLID = sl.ID
+        ),0)
+      end  ,2)
+     as numeric(15,2)) as nvarchar(50)) 
+     as baz
+     --,k
+     --,v.N_KSG
+     ,sl.date_2,ks.n_ksg k
+     ,calc.lek
+     ,zsl.rslt
+     ,sl.kd ddddd
+     ,round (convert(numeric(12,2),bt.BZTSZ) * ks.KOEF_Z *( (1-isnull(calc.lek,1)) + isnull(calc.lek,1)*isnull(case when calc.up is not null then 1 else ks.koef_up end,1)* 
+CASE WHEN zsl.usl_ok=2 or calc.up is not null THEN 1.00  ELSE ISNULL(ks.KOEF_U,1.00) END  * ks.KOEF_D) +convert(numeric(12,2),bt.BZTSZ)* 
+ks.KOEF_D  * case when isnull(ks.IT_SL,0)=0 then 0 else ks.IT_SL end ,2) tar
+,sl.tarif
+FROM [D3_SCHET_OMS] sch                  
+inner join D3_PACIENT_OMS p on p.d3_scid=sch.id 
+inner join D3_ZSL_OMS zsl on zsl.D3_PID=p.id  
+inner join D3_SL_OMS sl on sl.D3_ZSLID=zsl.ID
+JOIN D3_KSG_KPG_OMS ks  ON sl.id = ks.D3_SLID
+left join [CalcKsg] calc on calc.K_KSG=ks.N_KSG and sl.DATE_2 between calc.DATEBEG and isnull(calc.DATEEND,'20991231')
+left join SprBZTSZ bt on bt.USL_OK=zsl.usl_ok and sl.DATE_2 between bt.DBEG and bt.DEND
+--left join [D3_SANK_OMS] sank on sank.[D3_ZSLID]=zsl.id and sank.s_tip=1
+--left join M001_KSG m1 on m1.IDDS=sl.DS1 
+left join M001 m1 on m1.IDDS=sl.DS1 
+--left join [tfoms-2021].[DocExchange].[dbo].v023  v on v.k_ksg=ks.n_ksg and sl.DATE_2 between v.DATEBEG and isnull(v.dateend,'20991231')
+WHERE 
+  (  (calc.lek is null
+  and year(sl.date_2)<=2021)
+  or 
+  year(sl.date_2)>2021
+  )
+  --and year(sl.date_2)<=2021
+  and  sch.id='16046'
+  --and zsl.RSLT<>104
+  )
+  select distinct *
+  from z
+  where z.SUM_M<>0
+  and sum_m not between cast(isnull(baz,0) as numeric(18,2))-1 and cast(isnull(baz,0) as numeric(18,2))+1
