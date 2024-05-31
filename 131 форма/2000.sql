@@ -18,7 +18,7 @@ left join Yamed_Spr_UslCode y on y.ID=usl.vid_vme
 left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION	
 	
 where sch.CODE_MO=460026	
-	 and sch.year=2024 and sch.month=2
+	 and sch.year=2024 and sch.month=4
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт
 	and isnull(zs.PR_NOV,0)=0 --подано впервые
 group by  o.[NameWithID] 	

@@ -9,7 +9,7 @@ CREATE TABLE ztemp_13 (
 	[PROFIL] [int] NULL,
 	datez_1 DATETIME,
 	datez_2 DATETIME)
-DECLARE @p INT = 20777
+DECLARE @p INT = 21060
 
 DECLARE @zsl_id_1 INT, @sl_id_1 INT,  @NPOLIS NVARCHAR(20), @NPOLIS_1 NVARCHAR(20), @dr DATETIME, @ds1 [nvarchar](5), @ds1_1 [nvarchar](3), @PROFIL [int], @PROFIL_1 [int]
 
@@ -63,6 +63,34 @@ BEGIN
 END;
 CLOSE vendor_cursor;
 DEALLOCATE vendor_cursor;
+
+
+DROP TABLE ztemp_du2
+SELECT dzo.ID zslid, dso.ID slid, MIN(duo.DATE_IN)DATE_IN, MAX(duo.DATE_OUT)DATE_OUT
+INTO ztemp_du2
+FROM D3_ZSL_OMS AS dzo
+	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+		JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
+WHERE dzo.D3_SCID = 21060
+AND dzo.EXP_COMENT LIKE '%Значение поля ZL_LIST/ZAP/Z_SL/SL/USL/DATE_OUT не должно быть больше DATE_2%'
+GROUP BY dzo.ID, dso.ID
+
+
+
+UPDATE dzo SET dzo.DATE_Z_1 = DATE_IN, dzo.DATE_Z_2 = DATE_OUT, EXP_COMENT = NULL
+FROM D3_ZSL_OMS AS dzo
+	JOIN ztemp_du2 t ON dzo.ID = zslid
+	
+UPDATE dso SET dso.DATE_1 = DATE_IN, dso.DATE_2 = DATE_OUT
+FROM D3_SL_OMS AS dso
+	JOIN ztemp_du2 t ON dso.ID = slid
+	
+	UPDATE dzo SET  EXP_COMENT = NULL
+FROM D3_ZSL_OMS AS dzo
+	JOIN ztemp_du2 t ON dzo.ID = zslid
+	
+
+
 
 --SELECT *
 --FROM ztemp_13

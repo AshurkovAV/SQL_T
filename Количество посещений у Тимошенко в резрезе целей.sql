@@ -1,0 +1,13 @@
+SELECT *
+FROM Yamed_Spr_MedicalEmployee AS ysme
+WHERE ysme.NameWithID LIKE '%тимо%'
+
+
+SELECT 
+(SELECT v.NameWithID FROM V025 AS v WHERE v.IDPC = dso.P_CEL25), COUNT(*)kol
+FROM D3_ZSL_OMS AS dzo
+	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+		JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
+WHERE dso2.[YEAR] = 2024 AND dso2.[MONTH] IN (1,2,3)
+AND dso.IDDOKT = '029-198-268 87'
+GROUP BY dso.P_CEL25

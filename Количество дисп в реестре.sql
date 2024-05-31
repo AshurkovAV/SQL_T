@@ -20,7 +20,7 @@ FROM D3_ZSL_OMS AS dzo
 JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 WHERE 
-dso2.[YEAR] = 2024 AND dso2.[MONTH] = 2 AND dzo.OS_SLUCH_REGION IN (47,49,50)
+dso2.[YEAR] = 2024 AND dso2.[MONTH] = 4 AND dzo.OS_SLUCH_REGION IN (47,49,50)
 GROUP BY dzo.OS_SLUCH_REGION
 
 SELECT ysme.LPU_ID,
@@ -31,7 +31,7 @@ JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 WHERE 
-dso2.[YEAR] = 2024 AND dso2.[MONTH] = 2 AND dzo.OS_SLUCH_REGION IN (47,49,50)
+dso2.[YEAR] = 2024 AND dso2.[MONTH] = 4 AND dzo.OS_SLUCH_REGION IN (47,49,50)
 --AND dzo.EXP_COMENT IS NULL
 GROUP BY ysme.LPU_ID
 
@@ -43,4 +43,17 @@ JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 WHERE 
-dso2.[YEAR] = 2024 AND dso2.[MONTH] = 2 AND dzo.OS_SLUCH_REGION IN (47,49,50)
+dso2.[YEAR] = 2024 AND dso2.[MONTH] = 4 AND dzo.OS_SLUCH_REGION IN (47,49,50)
+
+
+---по врачам 
+SELECT (SELECT osd.NameWithID
+          FROM OsobSluchDb AS osd WHERE osd.Id = OS_SLUCH_REGION),
+          (SELECT ysme.NameWithID
+             FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = dso.IDDOKT)DOC, COUNT(*)
+FROM D3_ZSL_OMS AS dzo
+JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
+WHERE 
+dso2.[YEAR] = 2024 AND dso2.[MONTH] = 4 AND dzo.OS_SLUCH_REGION IN (47,49,50)
+GROUP BY dzo.OS_SLUCH_REGION, dso.IDDOKT

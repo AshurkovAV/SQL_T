@@ -21,7 +21,7 @@ SELECT pv.FAM, pv.IM, pv.OT, pv.DR, sl.DATE_Z_1, sl.DATE_Z_2
 FROM D3_ZSL_OMS AS sl
 JOIN D3_PACIENT_oms AS pv ON pv.ID = sl.D3_PID
 INNER JOIN D3_SCHET_OMS AS s ON s.ID = sl.D3_SCID AND s.[YEAR] = @year AND s.[MONTH] = @month 
-WHERE sl.USL_OK IN (1, 2)) AS t_stac ON t_stac.FAM = t_pol.FAM AND t_stac.IM = t_pol.IM AND t_stac.OT = t_pol.OT AND t_stac.DR = t_pol.DR
+WHERE sl.USL_OK IN (1, 2,3)) AS t_stac ON t_stac.FAM = t_pol.FAM AND t_stac.IM = t_pol.IM AND t_stac.OT = t_pol.OT AND t_stac.DR = t_pol.DR
 WHERE CAST(t_pol.DATE_1 AS DATE) BETWEEN CAST(dateadd(day,0,t_stac.DATE_Z_1) AS DATE) AND CAST(t_stac.DATE_Z_2 AS DATE)
 
 -- CAST(t_pol.DATE_1 AS DATE) < CAST(t_stac.DATE_2  AS DATE) and CAST(t_pol.DATE_2  AS DATE) > CAST(t_stac.DATE_2  AS DATE)
