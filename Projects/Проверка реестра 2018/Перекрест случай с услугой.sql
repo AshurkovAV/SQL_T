@@ -1,5 +1,5 @@
-DECLARE @p1 INT = 21061 --ид реестра ПО
-DECLARE @p2 INT = 21060--ид реестра Основной
+DECLARE @p1 INT = 23420 --ид реестра ПО
+DECLARE @p2 INT = 23439--ид реестра Основной
 --DECLARE @p2 INT = 2347
 if OBJECT_ID('ztemp_03062019_1_21delposdet1') is not null drop table ztemp_03062019_1_21delposdet1
 

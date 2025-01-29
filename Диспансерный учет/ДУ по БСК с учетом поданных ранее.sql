@@ -11,9 +11,9 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 				JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 					JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID --AND dso2.NSCHET LIKE '%+%'
-						JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT -- AND ysme.LPU_ID = 460026
+						LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT -- AND ysme.LPU_ID = 460026
 		WHERE 
-			dso.P_CEL25 IN( '1.3') 
+			dso.P_CEL25 IN( '1.3', '4.1') 
 			---------/////----------------------
 			AND( dso.DS1 IN ('I27.0', 'I27.2', 'I27.8', 'I50.0', 'I50.1', 'I50.9', 'I51.4', 'I69.0','I69.1','I69.2','I69.3','I69.4','I67.8', 'I65.2',
 			'Z95.0', 'Z95.1', 'Z95.2', 'Z95.3', 'Z95.4','Z95.5', 'Z95.8', 'Z95.9') OR
@@ -22,7 +22,6 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			dso.DS1 BETWEEN 'I07' AND 'I07.9' OR
 			dso.DS1 BETWEEN 'I08' AND 'I08.9' OR
 			dso.DS1 BETWEEN 'I09' AND 'I09.9' OR
-
 			dso.DS1 BETWEEN 'I10' AND 'I10.9' OR 
 			dso.DS1 BETWEEN 'I11' AND 'I11.9' OR 
 			dso.DS1 BETWEEN 'I12' AND 'I12.9' OR 
@@ -61,7 +60,8 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			---------/////----------------------
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
-			AND (dso2.[YEAR] = 2024 AND dso2.[MONTH] IN (1,2,3,4))
+			AND (dso2.[YEAR] = 2024 
+			AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9,10,11))
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
 SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
@@ -73,9 +73,9 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 				JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 					JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID --AND dso2.NSCHET LIKE '%+%'
-						JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT -- AND ysme.LPU_ID = 460026
+						LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT -- AND ysme.LPU_ID = 460026
 		WHERE 
-			dso.P_CEL25 IN( '1.3') 
+			dso.P_CEL25 IN( '1.3','4.1') 
 			---------/////----------------------
 			AND( dso.DS1 IN ('I27.0', 'I27.2', 'I27.8', 'I50.0', 'I50.1', 'I50.9', 'I51.4', 'I69.0','I69.1','I69.2','I69.3','I69.4','I67.8', 'I65.2',
 			'Z95.0', 'Z95.1', 'Z95.2', 'Z95.3', 'Z95.4','Z95.5', 'Z95.8', 'Z95.9') OR
@@ -117,17 +117,15 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			dso.DS1 BETWEEN 'I51' AND 'I51.2' OR
 			dso.DS1 BETWEEN 'I71' AND 'I71.9' OR
 			dso.DS1 BETWEEN 'Q20' AND 'Q28.9' OR
-
 			dso.DS1 BETWEEN 'E78' AND 'E78.9' 
 			) 
 			---------/////----------------------
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
-			AND (dso2.[YEAR] = 2024 AND dso2.[MONTH] IN (5))
+			AND (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (12))
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
-SELECT
-	*
+SELECT *
 FROM ztemp_du_tek AS dt
 	LEFT JOIN ztemp_du_pred AS dp ON dt.FAM = dp.FAM AND dt.IM = dp.IM AND dt.OT = dp.OT AND dt.DR = dp.DR
 WHERE dp.fam IS null

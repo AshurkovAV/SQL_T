@@ -18,12 +18,22 @@ INSERT INTO D3_SANK_OMS
 (
 	 [S_CODE],    [S_SUM],[S_TIP],   [S_OSN],   [S_COM],         [S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID]
 )
-SELECT distinct s.zsl_id, s.sumv, s.S_TIP2,    s.s_osn, s.[комментарий мэк], '20240313',dzo.ID, s.zsl_id, dzo.D3_SCID
-FROM sank0424$ s 
+SELECT distinct NEWID(), s.sumv, [S_TIP2],    s.s_osn, s.[комментарий мэк], '20250115',dzo.ID, s.zsl_id, dzo.D3_SCID
+FROM sank1224$ s 
 JOIN D3_ZSL_OMS AS dzo ON dzo.zsl_id = s.zsl_id
-JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
-WHERE dso.[YEAR] = 2024 AND dso.[MONTH] = 3
-AND s.s_tip2 = 10
+	JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
+		JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
+WHERE dso.[YEAR] = 2024 AND dso.[MONTH] IN (11)
+--AND dzo.ZSL_ID NOT IN ('01274EFE-A845-4779-8C5E-BD67662BF2FF')
+--AND s.s_tip2 IN(10,12)
 
 
 COMMIT  TRAN t1 
+
+SELECT *
+FROM D3_SCHET_OMS  AS dzo
+WHERE id IN (
+22326,
+22323,
+22321,
+22324)

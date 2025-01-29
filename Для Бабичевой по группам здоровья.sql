@@ -1,0 +1,70 @@
+SELECT  '[''R73.0'', ''R73.9'']' AS w,1kol, 
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND ada.DIAG10 IN ('R73.0', 'R73.9')
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr,PrMo
+
+UNION ALL
+
+SELECT  '[''E11'']',1kol,
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND ada.DIAG10 IN ('E11.0', 'E11.1', 'E11.3', 'E11.4', 'E11.5', 'E11.6', 'E11.7', 'E11.8', 'E11.9', 'E11')
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr,PrMo
+
+UNION ALL
+
+SELECT  '[''E66'']',1kol,
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND ada.DIAG10 BETWEEN 'E66.0' AND 'E66.9'
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr,PrMo
+
+UNION ALL
+
+SELECT '[''K86.0 K70.3 K74.3-K74.6 D13.4 B18.0-B18.2'']',1 kol,
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND (ada.DIAG10 BETWEEN 'K86.0' AND 'K86.9' OR ada.DIAG10 IN ('K70.3') OR ada.DIAG10 BETWEEN 'K74.3' AND 'K74.6' OR ada.DIAG10 IN ('D13.4') OR ada.DIAG10 BETWEEN 'B18.0' AND 'B18.2') 
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr, PrMo
+
+UNION ALL
+
+SELECT  '[''J41.0'', J41.1, J41.8, J44.0, J44.8, J44.9, J47.0, J45.0, J45.1, J45.8, J45.9, J84.1, J12.0 - J14.9 '']',1kol,
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND (ada.DIAG10 IN ('J41.0', 'J41.1', 'J41.8', 'J44.0', 'J44.8', 'J44.9', 'J47.0', 'J45.0', 'J45.1', 'J45.8', 'J45.9', 'J84.1') OR ada.DIAG10 BETWEEN 'J12.0' AND 'J14.9') 
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr, PrMo
+
+UNION ALL
+
+SELECT  '['' I05-I09, ... '']',1kol,
+(SELECT f.NameWithID FROM F003 AS f WHERE f.mcod =  ap.PrMo)PrMo
+FROM ATTP_People AS ap
+	JOIN ATTP_DISP_ACCOUNT AS ada ON ada.PID = ap.ID
+WHERE ap.[Active] = 1 AND ap.Ds IS NULL AND ada.DATEEND IS NULL
+AND (ada.DIAG10 BETWEEN 'I05.0' AND 'I09.9' OR ada.DIAG10 BETWEEN 'I34.0' AND 'I37.9' OR ada.DIAG10 BETWEEN 'I51.0' AND 'I51.2' OR ada.DIAG10 BETWEEN 'I71.0' AND 'I71.9'
+  OR ada.DIAG10 BETWEEN 'Z95.2' AND 'Z95.4' OR ada.DIAG10 IN ('Z95.8', 'Z95.9') 
+  OR ada.DIAG10 BETWEEN 'I10.0' AND 'I15.9'
+  OR ada.DIAG10 BETWEEN 'I20.0' AND 'I25.9' OR ada.DIAG10 IN ('Z95.1', 'Z95.5')
+  OR ada.DIAG10 BETWEEN 'I26.0' AND 'I26.9' OR ada.DIAG10 IN ('I27.0') 
+  OR ada.DIAG10 BETWEEN 'I28.0' AND 'I28.9' OR ada.DIAG10 IN ('I27.2', 'I27.8')
+  OR ada.DIAG10 BETWEEN 'I33.0' AND 'I33.9'
+  OR ada.DIAG10 BETWEEN 'I38.0' AND 'I39.9'
+  OR ada.DIAG10 BETWEEN 'I40.0' AND 'I42.9' OR ada.DIAG10 IN ('I51.4')
+  OR ada.DIAG10 BETWEEN 'I44.0' AND 'I50.9' OR ada.DIAG10 IN ('I95.0', 'I65.2')
+  OR ada.DIAG10 BETWEEN 'E78.0' AND 'E78.9'
+  OR ada.DIAG10 BETWEEN 'Q20.0' AND 'Q28.9' 
+  OR ada.DIAG10 BETWEEN 'I69.0' AND 'I69.4' OR ada.DIAG10 IN ('I67.8')
+  ) 
+GROUP BY ap.Fam, ap.Im, ap.Ot, ap.Dr, PrMo

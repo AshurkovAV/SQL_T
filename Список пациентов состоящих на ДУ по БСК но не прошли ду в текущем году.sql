@@ -1,22 +1,26 @@
 --DROP TABLE ztemp_du_bsk
 --DROP TABLE ztemp_ztemp_du_bsk_adr
+
+--SELECT * FROM dubsk
+
 -----------1 шаг.
-SELECT t.pid, t.Fam, t.Im, t.Ot, t.Dr, ds
+SELECT t.ЕНП, t.Фамилия fam, t.Имя im, t.Отчество ot, t.Др dr, [Регистр#ДН#Диагнозы] ds, Адрес
 INTO ztemp_du_bsk
-FROM dbo.[f_ashur_du_bsk]() AS t
-	LEFT JOIN  dbo.[f_ashur_du_bsk_reestr](2024) AS t1 ON t.fam = t1.fam
-														AND t.im = t1.IM
-														AND t.ot = t1.ot
-														AND t.dr = t1.dr
+FROM dubsk t  
+--dbo.[f_ashur_du_bsk]() AS t
+	LEFT JOIN  dbo.[f_ashur_du_bsk_reestr](2024) AS t1 ON t.Фамилия = t1.fam
+														AND t.Имя = t1.IM
+														AND t.Отчество = t1.ot
+														AND t.[ДР] = t1.dr
 WHERE t1.fam IS NULL
 
 -----------2.
 CREATE UNIQUE INDEX indX123 ON ztemp_du_bsk (pid);
 		-------------Добавляю телефон и адрес --------------------
-		SELECT tt.*, t.tel, ISNULL(ap.AdrOmsRn, '-') + ' ' + isnull(ap.AdrOmsNaspunkt, '-') + ' ' + isnull(ap.AdrOmsUl, '-') + ' ' + ISNULL(ap.AdrOmsDom, '-') + ' ' + isnull(ap.AdrOmsKorp, '-')  + ' ' + isnull(ap.AdrOmsKv, '-') addr
+		SELECT tt.*, t.tel--, ISNULL(ap.AdrOmsRn, '-') + ' ' + isnull(ap.AdrOmsNaspunkt, '-') + ' ' + isnull(ap.AdrOmsUl, '-') + ' ' + ISNULL(ap.AdrOmsDom, '-') + ' ' + isnull(ap.AdrOmsKorp, '-')  + ' ' + isnull(ap.AdrOmsKv, '-') addr
 		INTO ztemp_ztemp_du_bsk_adr
 		FROM ztemp_du_bsk tt 
-			INNER JOIN [SQL_COD].[DocExchange].[dbo].[ATTP_People] as ap ON tt.PID=ap.ID
+			--INNER JOIN [SQL_COD].[DocExchange].[dbo].[ATTP_People] as ap ON tt.PID=ap.ID
 				LEFT JOIN [test].[dbo].[Tel] t ON tt.fam=f and tt.im=i and tt.ot=o and tt.dr=d
 		-------------Добавляю телефон и адрес --------------------
 
@@ -60,4 +64,12 @@ LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = fam
 									AND p.Имя = im
 									AND p.Отчество = ot
 WHERE p.Фамилия IS not NULL
------------Заводская---------------------									
+-----------Заводская---------------------				
+--
+--
+--
+
+--INSERT INTO du_snyt (enp, fam, im,ot,ds1, dr)
+--SELECT ЕНП,z.fam,z.im,z.ot,z.ds,z.dr
+--from zt z			
+		
