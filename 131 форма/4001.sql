@@ -15,7 +15,7 @@ FROM [D3_SCHET_OMS] sch
 				left JOIN D3_DSS_OMS AS ddo ON ddo.D3_SLID = s.ID					
 					left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION					
 where sch.CODE_MO=460026					
-	AND sch.year=2024 and sch.month=12
+	AND sch.year=2025 and sch.month=7
 	AND zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт				
 	AND isnull(zs.PR_NOV,0)=0 --подано впервые				
 	AND ddo.ID IS null			

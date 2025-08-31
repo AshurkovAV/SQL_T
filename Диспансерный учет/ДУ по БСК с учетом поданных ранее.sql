@@ -4,7 +4,9 @@ GO
 
 SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 	dbo.GROUP_CONCAT_DS(DISTINCT ysme.NameWithID, N' , ', 1)NameWithID,
-	dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1)LPU_ID
+	(CASE WHEN dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1) = '460006' THEN 'Заводская'
+	      WHEN dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1) = '460026' THEN 'Союзная' ELSE 'Что-то пошло не так' END) lpu_id
+--	dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1)LPU_ID
 	--CASE WHEN ysme.LPU_ID = 460006 THEN 'ЗАВОДСКАЯ' ELSE 'СОЮЗНАЯ' END gb, ysme.NameWithID
 		INTO ztemp_du_pred
 		FROM D3_ZSL_OMS AS dzo
@@ -60,13 +62,14 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			---------/////----------------------
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
-			AND (dso2.[YEAR] = 2024 
-			AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9,10,11))
+			AND (dso2.[YEAR] = 2025
+			AND dso2.[MONTH] IN (1,2,3,4,5,6,7))--#
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
 SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 	dbo.GROUP_CONCAT_DS(DISTINCT ysme.NameWithID, N' , ', 1)NameWithID,
-	dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1)LPU_ID
+	(CASE WHEN dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1) = '460006' THEN 'Заводская'
+	      WHEN dbo.GROUP_CONCAT_DS(DISTINCT ysme.LPU_ID, N' , ', 1) = '460026' THEN 'Союзная' ELSE 'Что-то пошло не так' END) lpu_id
 	--CASE WHEN ysme.LPU_ID = 460006 THEN 'ЗАВОДСКАЯ' ELSE 'СОЮЗНАЯ' END gb, ysme.NameWithID
 		INTO ztemp_du_tek
 		FROM D3_ZSL_OMS AS dzo
@@ -122,7 +125,7 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			---------/////----------------------
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
-			AND (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (12))
+			AND (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (8))--#
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
 SELECT *

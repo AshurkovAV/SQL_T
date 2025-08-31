@@ -1,7 +1,7 @@
-SELECT Сотрудник, dbo.GROUP_CONCAT_DS(DISTINCT Наименование, N' , ', 1)Наименование, t1.LPU_ID, sum(kol)kol
+SELECT t.Сотрудник,[Отделение], dbo.GROUP_CONCAT_DS(DISTINCT Наименование, N' , ', 1)Наименование, sum(kol)kol
 FROM(
-		SELECT  Сотрудник, Наименование, sum(Количество)kol, SUBSTRING(Сотрудник, 0, CHARINDEX(' (', Сотрудник))doc
-		FROM signdoc2801$
+		SELECT  Сотрудник, [Отделение], Наименование, sum(Количество)kol, SUBSTRING(Сотрудник, 0, CHARINDEX(' (', Сотрудник))doc
+		FROM docsing0625$
 		WHERE Наименование NOT LIKE '%зуба%' 
 		AND Сотрудник NOT LIKE '%Ариадна Лис%'
 		AND Услуга NOT LIKE '%CT%'
@@ -37,8 +37,11 @@ FROM(
 		AND Услуга NOT LIKE '%A16.07.051%'
 		AND Услуга NOT LIKE '%A17.07.003%'
 		AND Услуга NOT LIKE '%A16.07.017.002%'
+		AND Услуга NOT LIKE '014/у%'
  
-		GROUP BY Сотрудник, Наименование) AS t
-LEFT JOIN (SELECT (ysme.FAM + ' ' + ysme.IM + ' ' + ysme.OT) doc, ysme.LPU_ID
-             FROM Yamed_Spr_MedicalEmployee AS ysme) t1 ON t.doc = t1.doc 
-GROUP BY t.Сотрудник, t1.LPU_ID
+		GROUP BY Сотрудник, [Отделение], Наименование) AS t
+LEFT JOIN (
+			SELECT (ysme.FAM + ' ' + ysme.IM + ' ' + ysme.OT) doc, ysme.LPU_ID
+            FROM Yamed_Spr_MedicalEmployee AS ysme
+          ) t1 ON t.doc = t1.doc 
+GROUP BY Сотрудник,[Отделение]--,  t1.LPU_ID

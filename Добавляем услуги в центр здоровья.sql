@@ -1,4 +1,5 @@
-DECLARE @id INT = 23437
+DECLARE @id INT = 23744
+
 -- B04.047.002       Профилактический прием (осмотр, консультация) врача-терапевта
 INSERT INTO D3_USL_OMS
 (D3_SLID,

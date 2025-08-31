@@ -1,5 +1,8 @@
---DROP TABLE ztemp_du_bsk
---DROP TABLE ztemp_ztemp_du_bsk_adr
+if OBJECT_ID('ztemp_du_bsk') is not null drop table ztemp_du_bsk
+if OBJECT_ID('ztemp_ztemp_du_bsk_adr') is not null drop table ztemp_ztemp_du_bsk_adr
+
+GO
+
 
 --SELECT * FROM dubsk
 
@@ -7,8 +10,8 @@
 SELECT t.ЕНП, t.Фамилия fam, t.Имя im, t.Отчество ot, t.Др dr, [Регистр#ДН#Диагнозы] ds, Адрес
 INTO ztemp_du_bsk
 FROM dubsk t  
---dbo.[f_ashur_du_bsk]() AS t
-	LEFT JOIN  dbo.[f_ashur_du_bsk_reestr](2024) AS t1 ON t.Фамилия = t1.fam
+--dbo.[f_ashur_du_bsk]() AS t 
+	LEFT JOIN  dbo.[f_ashur_du_bsk_reestr](2025) AS t1 ON t.Фамилия = t1.fam
 														AND t.Имя = t1.IM
 														AND t.Отчество = t1.ot
 														AND t.[ДР] = t1.dr
@@ -40,7 +43,7 @@ LEFT JOIN (
 		JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 			JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 				JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
-		WHERE dso2.[YEAR] in (2024)
+		WHERE dso2.[YEAR] in (2025)
 		AND dso2.SchetType IN ('DP','DO')	
 	GROUP BY dpo.FAM, dpo.IM, dpo.OT, dpo.DR,dzo.OS_SLUCH_REGION , dzo.DATE_Z_1
 ) AS t_p ON t_p.FAM = t_du.fam AND t_p.IM = t_du.im AND t_p.OT = t_du.ot AND t_p.DR = t_du.dr
@@ -53,6 +56,7 @@ FROM zt z
 LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = fam 
 									AND p.Имя = im
 									AND p.Отчество = ot
+									AND p.[Дата рождения] = dr
 WHERE p.Фамилия IS NULL
 -----------Союзная---------------------
 
@@ -63,6 +67,7 @@ FROM zt z
 LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = fam 
 									AND p.Имя = im
 									AND p.Отчество = ot
+									AND p.[Дата рождения] = z.dr
 WHERE p.Фамилия IS not NULL
 -----------Заводская---------------------				
 --

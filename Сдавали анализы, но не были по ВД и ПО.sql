@@ -1,28 +1,32 @@
-DROP TABLE zs1
-DROP TABLE zsd1
+if OBJECT_ID('zsd1') is not null DROP TABLE zsd1
+
+GO
 
 SELECT *
-INTO zsd1
+INTO zsd1234
 FROM(
-SELECT  [Фамилия], [Имя], [Отчество], [Дата рождения], dbo.GROUP_CONCAT_DS(DISTINCT [Дата получения], N' , ', 1)[Дата получения], dbo.GROUP_CONCAT_DS(DISTINCT t, N' , ', 1)t
-				FROM(
-				--	SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], rez [Дата получения], 'OAK0112't
-				--	FROM [oak1223$]
-				--	UNION ALL
-				--	SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], rez [Дата получения], 'hol0112't
-				--	FROM [hol1223$]
-				--	UNION ALL
-				--	SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], rez [Дата получения], 'GLUK0112't
-				--	FROM [GLUK1223$]
-				--	UNION ALL
-				--SELECT [Фамилия], [Имя], [Отчество], [Дата рождения], [Дата получения], 'OAK't
-				--FROM oak$
+SELECT  [Фамилия], [Имя], [Отчество], CAST([Дата рождения] AS DATE)[Дата рождения], dbo.GROUP_CONCAT_DS(DISTINCT [Дата получения], N' , ', 1)[Дата получения], dbo.GROUP_CONCAT_DS(DISTINCT t, N' , ', 1)t
+				FROM(	
+				--SELECT  fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'GLUK't				
+				--FROM [gluk0607$] AS g
 				--UNION ALL
-				--SELECT [Фамилия], [Имя], [Отчество], [Дата рождения], [Дата получения], 'HOL't
-				--FROM hol$
+				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'HOL't
+				--FROM hol0607$
 				--UNION ALL
-				--SELECT [Фамилия], [Имя], [Отчество], [Дата рождения], [Дата получения], 'GLUK't
-				--FROM GLUK$
+				--SELECT  fam [Фамилия], im [Имя], ot [Отчество], dr1 [Дата рождения], dr [Дата получения], 'GLUK't				
+				--FROM [gluk08$] AS g
+				--UNION ALL
+				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr1 [Дата рождения], dr [Дата получения], 'HOL't
+				--FROM hol08$
+				--UNION ALL
+				SELECT  fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk101124$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol101124$
+				
+				
+				
 				--UNION ALL
 				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'GLUK't				
 				--FROM gluk0607$
@@ -30,14 +34,52 @@ SELECT  [Фамилия], [Имя], [Отчество], [Дата рождения], dbo.GROUP_CONCAT_DS(DISTI
 				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'HOL't
 				--FROM hol0607$
 				--UNION ALL
-				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'GLUK't				
-				FROM gluk101124$
+				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'GLUK't		
+				--FROM gluk101124$
+				--WHERE CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102)	 >='20241101'
+				--UNION ALL
+				--SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'HOL't
+				--FROM hol101124$
+				--WHERE CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102)	 >='20241101'
+				
 				UNION ALL
-				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], dp [Дата получения], 'HOL't
-				FROM hol101124$
+				
+				
+				
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk010225$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol010225$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk_030425$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol_030425$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk0525$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol0525$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk090725$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol090725$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
+				FROM gluk110825$
+				UNION ALL
+				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
+				FROM hol110825$
 				) AS d
 				GROUP BY  [Фамилия], [Имя], [Отчество], [Дата рождения]) AS t
 
+if OBJECT_ID('zs1')  is not null DROP TABLE zs1
+GO
 ------------//2 находим кто из них уже прошел вд и по//----------------
 SELECT *
 INTO zs1 
@@ -48,56 +90,39 @@ INTO zs1
 					JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 						JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 							JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
-				WHERE dso2.[YEAR] IN (2024)
+				WHERE dso2.[YEAR] IN (2025)
 					AND dzo.OS_SLUCH_REGION IN (47,49,50) 
 				GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR) AS t1 ON t.Фамилия = t1.FAM AND t.Имя = t1.IM AND t.Отчество = t1.OT AND t.[Дата рождения] = t1.DR
+WHERE  t.[Дата рождения] IS NOT NULL AND [Дата получения] IS NOT NULL
 
 
 ------------//3 проставляем телефоны//----------------
-DROP TABLE zt1
+if OBJECT_ID('zt1') is not null DROP TABLE zt1
+
 SELECT *
 INTO zt1
 FROM(
 	SELECT *
 	FROM zs1
 	WHERE fam IS null) AS tt
-LEFT JOIN [test].[dbo].[Tel] t ON tt.Фамилия=f and tt.Имя=i and tt.Отчество=o and tt.[Дата рождения]=d
+LEFT JOIN telefon1 AS t ON tt.Фамилия=t.NOM and tt.Имя= t.PRENOM and tt.Отчество=t.PATRONYME and tt.[Дата рождения]=t.NE_LE
 
+------------//3 проставляем адреса и номер полиса//----------------
+if OBJECT_ID('zt2') is not null DROP TABLE zt2
 
-
---SELECT distinct z.*
---FROM zt z
---LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = z.Фамилия 
---									AND p.Имя = z.Имя
---									AND p.Отчество = z.Отчество
---									AND p.[Дата рождения] = z.[Дата рождения]
---INNER JOIN (SELECT * FROM [SQL_COD].[DocExchange].[dbo].[ATTP_People] ap WHERE prmo=460026) ap ON  
---												ap.fam= z.Фамилия 
---												AND ap.im=z.Имя 
---												AND ap.ot= z.Отчество
---												AND ap.dr = z.[Дата рождения]
---WHERE p.Фамилия IS  NULL
-
+SELECT enp, t2.*, ISNULL(dl.Адрес_район , '-') + ' ' + isnull(dl.Адрес_населённый_пункт , '-') + ' ' + isnull(dl.Адрес_улица , '-') + ' ' + ISNULL(dl.Адрес_дом , '-') + ' ' + isnull(dl.Адрес_корпус , '-')  + ' ' + isnull(dl.Адрес_квартира , '-') addr
+INTO zt2
+	FROM zt1 t2
+		LEFT JOIN [elmed].[dbo].Prikrep dl ON dl.Фамилия =t2.Фамилия and dl.Имя =t2.Имя and dl.Отчество =t2.Отчество and dl.Дата_рождения =t2.[Дата рождения]
 
 -----------4.
------------Союзная---------------------
-SELECT distinct z.*
-FROM zt1 z
-LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = z.Фамилия 
-									AND p.Имя = z.Имя
-									AND p.Отчество = z.Отчество
-									AND p.[Дата рождения] = z.[Дата рождения]
-WHERE p.Фамилия IS NULL
------------Союзная---------------------
 
-
+-------------Союзная---------------------
 -----------Заводская---------------------
-SELECT distinct z.*
-FROM zt1 z
-LEFT JOIN [test].[dbo].[prikrep7KGP] p ON p.Фамилия = z.Фамилия 
-									AND p.Имя = z.Имя
-									AND p.Отчество = z.Отчество
-									AND p.[Дата рождения] = z.[Дата рождения]
-WHERE p.Фамилия IS not NULL
------------Заводская---------------------		
-
+SELECT distinct z.*,
+CASE WHEN p.fam IS NULL THEN 'Союзная' ELSE 'Заводская' END podr
+FROM zt2 z
+LEFT JOIN [dbo].[Perepis] p ON p.fam = z.Фамилия 
+									AND p.im = z.Имя
+									AND p.ot = z.Отчество
+									AND p.dr = z.[Дата рождения]

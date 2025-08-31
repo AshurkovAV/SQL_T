@@ -13,7 +13,7 @@ FROM [D3_SCHET_OMS] sch
 						left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION	
 	
 where sch.CODE_MO=460026	
-	 and sch.year=2024 and sch.month=12
+	 and sch.year=2025 and sch.month=7
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт
 	and isnull(zs.PR_NOV,0)=0 --подано впервые
 group by  o.[NameWithID] 	

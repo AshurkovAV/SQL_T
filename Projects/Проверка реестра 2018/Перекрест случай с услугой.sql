@@ -1,5 +1,5 @@
-DECLARE @p1 INT = 23420 --ид реестра ПО
-DECLARE @p2 INT = 23439--ид реестра Основной
+DECLARE @p1 INT = 23712 --ид реестра ПО
+DECLARE @p2 INT = 23744--ид реестра Основной
 --DECLARE @p2 INT = 2347
 if OBJECT_ID('ztemp_03062019_1_21delposdet1') is not null drop table ztemp_03062019_1_21delposdet1
 
@@ -20,7 +20,7 @@ INNER JOIN (
 			JOIN D3_SL_OMS AS ds ON dz.ID = ds.D3_ZSLID
 				JOIN D3_PACIENT_OMS pa on dz.D3_PID = pa.ID
 					JOIN D3_USL_OMS AS u ON u.D3_SLID = ds.ID
-	WHERE s.YEAR = 2024  AND dz.OS_SLUCH_REGION IS NOT NULL) AS t2 
+	WHERE s.YEAR in( 2024, 2025)  AND dz.OS_SLUCH_REGION IS NOT NULL) AS t2 
 	ON t2.FAM = t.FAM AND t2.IM = t.IM AND t2.OT = t.OT AND t2.DR = t.DR AND cast(t.DATE_1 as date) = cast(t2.DATE_1 as date) AND t.izslid <> t2.ID AND t.PROFIL = t2.PROFIL
 ORDER BY t2.ID
 

@@ -4,29 +4,35 @@
 INSERT INTO @schetTab(id)
 SELECT id
 FROM D3_SCHET_OMS AS dso
-WHERE dso.[YEAR] = 2024 AND dso.[MONTH] = 11 AND dso.NSCHET LIKE '%+%'
+WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 6-- AND dso.NSCHET LIKE '%+%'
 
  
  DECLARE @d DATETIME = GETDATE()
  DECLARE @uet numeric(10,2)
  SET @uet = (SELECT st.Value FROM Settings st WHERE st.Name = 'Uet')
  
-	 --DROP TABLE ztemp_sankdop2014
-	 --SELECT *
-	 --INTO ztemp_sankdop2014
-		--				FROM D3_SANK_OMS AS dso
-		--				WHERE s_tip in (10,12) AND dso.S_DATE = '20250115' AND  dso.ID IN (
-		--				SELECT MAX(s.ID)
-		--				FROM D3_SANK_OMS s GROUP BY s.D3_ZSLGID)
+ --SELECT *
+ --FROM ztemp_sankdop2025
+	-- DROP TABLE ztemp_sankdop2025
+										 --SELECT *
+										 --INTO ztemp_sankdop2025
+											--				FROM D3_SANK_OMS AS dso
+											--				WHERE s_tip in (10,12) AND dso.S_DATE = '20250814' 
+											--				AND  dso.ID IN (
+											--								SELECT MAX(s.ID)
+											--								FROM D3_SANK_OMS s 
+											--								GROUP BY s.D3_ZSLGID)
  
--- DROP TABLE ZreestrEkonom0102024_sank11
+-- DROP TABLE ztemp_sankdop2025
  
  SELECT *
- INTO ZreestrEkonom1102024_sank11
+ INTO ZreestrEkonom_sank06025_27
  FROM (
  
 
- SELECT zsl.PR_NOV , sc.[YEAR] [Год], 
+ SELECT (SELECT s.NameWithID
+    FROM Yamed_Spr_SchetType s WHERE s.ID = sc.SchetType)SchetType, 
+    zsl.PR_NOV , sc.[YEAR] [Год], 
  CASE WHEN sc.[MONTH] IN (1,2,3) THEN 'Первый'
       WHEN sc.[MONTH] IN (4,5,6) THEN 'Второй'
       WHEN sc.[MONTH] IN (7,8,9) THEN 'Третий'
@@ -75,14 +81,14 @@ CASE WHEN profil IN (85,86,87,88,89,90) and P_CEL25 = '3.0' THEN  round(sl.ED_CO
  
 zsl.SUMV [Сумма выставленная], 
 
-DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни,
+DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни, 2 OPLATA,
 dso.S_SUM [Удержания], replace(replace(dso.S_COM,CHAR(13),' '), CHAR(10), ' ') [комент],-- CASE WHEN dso.S_COM LIKE 'Терапевт <18 в пол. или <16 в стац%' THEN 'Терапевт <18 в пол. или <16 в стац. Некорректное выставление профиля' ELSE dso.S_COM END AS [Комментарий], 
 MONTH(zsl.DATE_Z_2) [Месяц выбытия], dso.S_TIP, dso.S_DATE
 FROM D3_ZSL_OMS zsl 
 	JOIN D3_SL_OMS sl ON zsl.ID = sl.D3_ZSLID
 		JOIN D3_SCHET_OMS sc ON zsl.D3_SCID = sc.ID and sc.ID IN (SELECT id FROM @schetTab)
 			JOIN D3_PACIENT_OMS pa ON zsl.D3_PID = pa.ID 
-				INNER JOIN ztemp_sankdop2014 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
+				INNER JOIN ztemp_sankdop2025 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
 WHERE sl.id IN (SELECT MAX(sl.id)--,sl.IDDOKT,sl.PROFIL, sl.DS1,sl.P_CEL,sl.PODR,sl.USL_OK
  
                FROM D3_ZSL_OMS zsl 
@@ -93,7 +99,9 @@ WHERE sl.id IN (SELECT MAX(sl.id)--,sl.IDDOKT,sl.PROFIL, sl.DS1,sl.P_CEL,sl.PODR
                GROUP by zsl.id)
 UNION 
 
- SELECT zsl.PR_NOV , sc.[YEAR] [Год], 
+ SELECT (SELECT s.NameWithID
+    FROM Yamed_Spr_SchetType s WHERE s.ID = sc.SchetType)SchetType, 
+    zsl.PR_NOV , sc.[YEAR] [Год], 
  CASE WHEN sc.[MONTH] IN (1,2,3) THEN 'Первый'
       WHEN sc.[MONTH] IN (4,5,6) THEN 'Второй'
       WHEN sc.[MONTH] IN (7,8,9) THEN 'Третий'
@@ -142,7 +150,7 @@ CASE WHEN sl.profil IN (85,86,87,88,89,90) and P_CEL25 = '3.0' THEN  round(sl.ED
  
 zsl.SUMV [Сумма выставленная], 
 
-DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни,
+DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни, 2 OPLATA,
 dso.S_SUM [Удержания], replace(replace(dso.S_COM,CHAR(13),' '), CHAR(10), ' ') [комент],-- CASE WHEN dso.S_COM LIKE 'Терапевт <18 в пол. или <16 в стац%' THEN 'Терапевт <18 в пол. или <16 в стац. Некорректное выставление профиля' ELSE dso.S_COM END AS [Комментарий], 
 MONTH(zsl.DATE_Z_2) [Месяц выбытия] , dso.S_TIP, dso.S_DATE
 FROM D3_ZSL_OMS zsl 
@@ -150,7 +158,7 @@ FROM D3_ZSL_OMS zsl
 		JOIN D3_SCHET_OMS sc ON zsl.D3_SCID = sc.ID and sc.ID IN (SELECT id FROM @schetTab)
 			JOIN D3_PACIENT_OMS pa ON zsl.D3_PID = pa.ID 
 				JOIN D3_USL_OMS AS duo ON duo.D3_SLID = sl.ID
-					INNER JOIN ztemp_sankdop2014 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
+					INNER JOIN ztemp_sankdop2025 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
 WHERE sl.id IN (SELECT MAX(sl.id)--,sl.IDDOKT,sl.PROFIL, sl.DS1,sl.P_CEL,sl.PODR,sl.USL_OK
  
                FROM D3_ZSL_OMS zsl 
@@ -162,7 +170,9 @@ WHERE sl.id IN (SELECT MAX(sl.id)--,sl.IDDOKT,sl.PROFIL, sl.DS1,sl.P_CEL,sl.PODR
 
 UNION 
 
-SELECT zsl.PR_NOV, sc.[YEAR] [Год], 
+SELECT (SELECT s.NameWithID
+    FROM Yamed_Spr_SchetType s WHERE s.ID = sc.SchetType)SchetType, 
+    zsl.PR_NOV, sc.[YEAR] [Год], 
 CASE WHEN sc.[MONTH] IN (1,2,3) THEN 'Первый'
      WHEN sc.[MONTH] IN (4,5,6) THEN 'Второй'
      WHEN sc.[MONTH] IN (7,8,9) THEN 'Третий'
@@ -214,7 +224,7 @@ CASE WHEN zsl.OS_SLUCH_REGION NOT IN (11, 17, 7) THEN zsl.SUMV
 	ELSE CASE WHEN zsl.OS_SLUCH_REGION IN (11,17,7) AND sl.PROFIL IN (68) THEN zsl.SUMV ELSE 0 END
 	END [Сумма выставленная], 
 
-DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни,
+DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни, 2 OPLATA,
 dso.S_SUM [Удержания],replace(replace(dso.S_COM,CHAR(13),' '), CHAR(10), ' '),-- CASE WHEN dso.S_COM LIKE 'Терапевт <18 в пол. или <16 в стац%' THEN 'Терапевт <18 в пол. или <16 в стац. Некорректное выставление профиля' ELSE dso.S_COM END AS [Комментарий],
 MONTH(zsl.DATE_Z_2) [Месяц выбытия] , dso.S_TIP, dso.S_DATE
 FROM D3_ZSL_OMS zsl 
@@ -226,7 +236,7 @@ JOIN ( SELECT * FROM D3_SL_OMS WHERE id IN (SELECT MAX(dso.id)id
 											)) sl ON zsl.ID = sl.D3_ZSLID
 	JOIN D3_SCHET_OMS sc on zsl.D3_SCID = sc.ID and sc.ID IN (SELECT id FROM @schetTab)
 		JOIN D3_PACIENT_OMS pa on zsl.D3_PID = pa.ID 
-			INNER JOIN ztemp_sankdop2014 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
+			INNER JOIN ztemp_sankdop2025 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
 WHERE zsl.usl_ok = 3 AND zsl.OS_SLUCH_REGION IS NOT NULL
 
 UNION
@@ -236,7 +246,9 @@ UNION
  * Отдельно посещения в обращении
  *******************************************/
  
- SELECT zsl.PR_NOV, sc.[YEAR] [Год], 
+ SELECT (SELECT s.NameWithID
+    FROM Yamed_Spr_SchetType s WHERE s.ID = sc.SchetType)SchetType, 
+    zsl.PR_NOV, sc.[YEAR] [Год], 
 CASE WHEN sc.[MONTH] IN (1,2,3) THEN 'Первый'
      WHEN sc.[MONTH] IN (4,5,6) THEN 'Второй'
      WHEN sc.[MONTH] IN (7,8,9) THEN 'Третий'
@@ -283,20 +295,22 @@ CASE WHEN profil IN (85,86,87,88,89,90) and P_CEL25 = '3.0' THEN  round(sl.ED_CO
 	WHEN profil IN (85,86,87,88,89,90) and P_CEL25 != '3.0' THEN  round(sl.ED_COL/4.2,2) ELSE 1.00 END [Количество ед], 
 1 [Количество],
 sl.TARIF [Тариф], zsl.SUMV[Сумма выставленная], 
-DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни,
+DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни, 2 OPLATA,
 dso.S_SUM [Удержания], replace(replace(dso.S_COM,char(13),' '), CHAR(10), ' '),--CASE WHEN replace(dso.S_COM,char(13),' ') LIKE 'Терапевт <18 в пол. или <16 в стац%' THEN 'Терапевт <18 в пол. или <16 в стац. Некорректное выставление профиля' ELSE dso.S_COM END AS [Комментарий],
 MONTH(zsl.DATE_Z_2) [Месяц выбытия] , dso.S_TIP, dso.S_DATE
 from D3_ZSL_OMS zsl 
 	join D3_SL_OMS sl on zsl.ID = sl.D3_ZSLID
 		join D3_SCHET_OMS sc on zsl.D3_SCID = sc.ID and sc.ID IN (SELECT id FROM @schetTab)
 			join D3_PACIENT_OMS pa on zsl.D3_PID = pa.ID 
-				INNER JOIN ztemp_sankdop2014 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
+				INNER JOIN ztemp_sankdop2025 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
 WHERE zsl.usl_ok = 3 AND zsl.OS_SLUCH_REGION IS NULL AND sl.P_CEL25 = '3.0'
 
 UNION ALL
 
 ----Стационар и дневной стационар
-SELECT zsl.PR_NOV, sc.[YEAR] [Год], 
+SELECT (SELECT s.NameWithID
+    FROM Yamed_Spr_SchetType s WHERE s.ID = sc.SchetType)SchetType, 
+    zsl.PR_NOV, sc.[YEAR] [Год], 
 CASE WHEN sc.[MONTH] IN (1,2,3) THEN 'Первый'
      WHEN sc.[MONTH] IN (4,5,6) THEN 'Второй'
      WHEN sc.[MONTH] IN (7,8,9) THEN 'Третий'
@@ -346,7 +360,7 @@ CASE WHEN profil IN (85,86,87,88,89,90) and P_CEL25 = '3.0' THEN  round(sl.ED_CO
   
 zsl.SUMV [Сумма выставленная], 
 
-DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни,
+DATEDIFF(DAY, zsl.DATE_Z_1, zsl.DATE_Z_2) + 1  AS Койкодни, 2 OPLATA,
 dso.S_SUM [Удержания], replace(replace(dso.S_COM,CHAR(13),' '), CHAR(10), ' '),-- CASE WHEN dso.S_COM LIKE 'Терапевт <18 в пол. или <16 в стац%' THEN 'Терапевт <18 в пол. или <16 в стац. Некорректное выставление профиля' ELSE dso.S_COM END AS [Комментарий], 
 MONTH(zsl.DATE_Z_2) [Месяц выбытия] , dso.S_TIP, dso.S_DATE
 FROM D3_ZSL_OMS zsl 
@@ -354,7 +368,7 @@ FROM D3_ZSL_OMS zsl
 		JOIN D3_SCHET_OMS sc ON zsl.D3_SCID = sc.ID and sc.ID IN (SELECT id FROM @schetTab)
 			JOIN D3_PACIENT_OMS pa ON zsl.D3_PID = pa.ID 
 				LEFT JOIN D3_KSG_KPG_OMS AS dkko ON dkko.D3_SLID = sl.ID
-					INNER JOIN ztemp_sankdop2014 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
+					INNER JOIN ztemp_sankdop2025 AS dso ON dso.D3_ZSLGID = zsl.ZSL_ID
 					WHERE sl.id IN (SELECT MAX(sl.id)--,sl.IDDOKT,sl.PROFIL, sl.DS1,sl.P_CEL,sl.PODR,sl.USL_OK
  
 								   FROM D3_ZSL_OMS zsl 
