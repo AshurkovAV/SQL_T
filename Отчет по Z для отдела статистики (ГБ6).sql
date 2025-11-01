@@ -29,7 +29,7 @@ FROM  D3_ZSL_OMS zs
 INNER JOIN D3_PACIENT_OMS p ON zs.D3_PID = p.ID 
 INNER JOIN D3_SL_OMS s on s.D3_ZSLID=zs.ID  
 JOIN D3_SCHET_OMS AS dso ON dso.ID = zs.D3_SCID
-WHERE ((dso.[YEAR] IN (2024) --AND dso.NSCHET LIKE '%+%')
+WHERE ((dso.[YEAR] IN (2025) --AND dso.NSCHET LIKE '%+%')
 )) AND 
  --year(p.DR) = 2019 
 --zs.D3_SCID in (67, 69,72,75,77, 80,84,89,93) AND 

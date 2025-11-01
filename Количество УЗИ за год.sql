@@ -8,7 +8,7 @@ FROM D3_ZSL_OMS AS dzo
 		JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 			JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 				JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
-WHERE dso2.[YEAR] = 2024
+WHERE dso2.[YEAR] = 2025
 	--AND dso2.[MONTH] = 2
 	AND dso.PROFIL = 106
 GROUP BY month(dso.DATE_1 ), dso.IDDOKT, duo.CODE_USL

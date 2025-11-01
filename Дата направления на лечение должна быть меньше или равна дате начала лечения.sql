@@ -2,11 +2,12 @@
 --UPDATE dzo SET dzo.EXP_COMENT = NULL
 
 --UPDATE dso SET PODR = '460026209712'
+DROP TABLE ztemp_naprdate
 SELECT ZSL_ID, MIN(dso.DATE_1)DATE_1, min(dzo.NPR_DATE)NPR_DATE
 INTO ztemp_naprdate
 FROM D3_ZSL_OMS AS dzo
 	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
-WHERE dzo.D3_SCID = 22290
+WHERE dzo.D3_SCID = 23647
 AND dzo.EXP_COMENT like '%Дата направления на лечение должна быть меньше или равна дате начала лечения%'
 GROUP BY dzo.ZSL_ID
 

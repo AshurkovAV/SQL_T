@@ -1,5 +1,5 @@
 if OBJECT_ID('ztemp_stacionar') is not null drop table ztemp_stacionar
-declare @p1 int = 20791
+declare @p1 int = 23547
 --SELECT t_pol.*--, t_stac.DATE_1, t_stac.DATE_2
 SELECT zsl_id, sl_id, D3_PID
 INTO ztemp_stacionar
