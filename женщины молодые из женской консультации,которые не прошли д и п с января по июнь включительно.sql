@@ -9,12 +9,10 @@ FROM (
 					JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 						JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID	
 							JOIN Yamed_Spr_MedicalEmployee AS ysme ON dso.IDDOKT = ysme.SNILS
-			WHERE ((dso2.[YEAR] = 2024 AND dso2.[MONTH] IN (11,12)) OR dso2.[YEAR] = 2025)
+			WHERE (dso2.[YEAR] = 2025)
 			AND dso.PROFIL = 136
 			AND dzo.USL_OK = 3
 			AND ysme.LPU_ID = 460006
-			
-			
 			
 ) AS t1
 
@@ -76,6 +74,6 @@ FROM zt z
 										AND p.im = z.im
 										AND p.ot = z.ot
 										AND p.dr = z.dr
-WHERE t.Фамилия IS null
+--WHERE t.fam IS null
 -----------Заводская---------------------			
 

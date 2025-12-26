@@ -1,16 +1,32 @@
 
 SELECT --duo.* 
-(SELECT TOP 1 ysme.NameWithID  FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = dso.IDDOKT), COUNT(*)
+--(SELECT TOP 1 ysme.NameWithID  FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = dso.IDDOKT)
+(CASE WHEN dso2.[MONTH] = 1 THEN  'Январь'
+		  WHEN dso2.[MONTH] = 2 THEN  'Февраль'
+		  WHEN dso2.[MONTH] = 3 THEN  'Март'
+		  WHEN dso2.[MONTH] = 4 THEN  'Апрель'
+		  WHEN dso2.[MONTH] = 5 THEN  'Май'
+		  WHEN dso2.[MONTH] = 6 THEN  'Июнь'
+		  WHEN dso2.[MONTH] = 7 THEN  'Июль'
+		  WHEN dso2.[MONTH] = 8 THEN  'Август'
+		  WHEN dso2.[MONTH] = 9 THEN  'Сентябрь'
+		  WHEN dso2.[MONTH] = 10 THEN 'Октябрь'
+		  WHEN dso2.[MONTH] = 11 THEN 'Ноябрь'
+		  WHEN dso2.[MONTH] = 12 THEN 'Декабрь' 
+		  ELSE 'Что-то пошло не так' END) [месяц подачи], COUNT(*)kol
 FROM D3_ZSL_OMS AS dzo
 	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 		JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID
 			JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 				JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
-WHERE dso2.[YEAR] = 2025 AND dso2.[MONTH] = 7 AND duo.VID_VME IN ('A26.06.041', 'A26.06.041.002', 'A26.06.041.001.01', 'A26.05.019.001', 'A26.06.036', 'A26.06.040') 
+WHERE dso2.[YEAR] = 2025 AND duo.VID_VME IN ('A26.06.041', 'A26.06.041.002', 'A26.06.041.001.01', 'A26.05.019.001', 'A26.06.036', 'A26.06.040') 
 AND dzo.OS_SLUCH_REGION IN (47,49) 
-GROUP BY dso.IDDOKT
+--AND dso2.[MONTH] = 11
+GROUP BY dso2.[MONTH]
 
-
+SELECT *
+ FROM Yamed_Spr_UslCode
+WHERE ID IN ('A26.06.041', 'A26.06.041.002', 'A26.06.041.001.01', 'A26.05.019.001', 'A26.06.036', 'A26.06.040')
 
 
 ---вставляем код

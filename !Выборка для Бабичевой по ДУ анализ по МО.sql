@@ -1,8 +1,12 @@
 SELECT *
 FROM F003 AS f
-WHERE f.nam_mok LIKE '%мед%'
+WHERE f.nam_mok LIKE '%каст%'
+--жел
+--льг
+--окт
+--каст
 
-DECLARE @t NVARCHAR(25) = '460010'
+DECLARE @t NVARCHAR(25) = '460035'
 
 SELECT t1.[тип заболенваия], SUM(kol) kol
 FROM (

@@ -9,11 +9,7 @@ CREATE TABLE ztemp_13 (
 	[PROFIL] [int] NULL,
 	datez_1 DATETIME,
 	datez_2 DATETIME)
-<<<<<<< HEAD
-DECLARE @p INT = 23799
-=======
-DECLARE @p INT = 23744
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+DECLARE @p INT = 23826
 
 DECLARE @zsl_id_1 INT, @sl_id_1 INT,  @NPOLIS NVARCHAR(20), @NPOLIS_1 NVARCHAR(20), @dr DATETIME, @ds1 [nvarchar](5), @ds1_1 [nvarchar](3), @PROFIL [int], @PROFIL_1 [int]
 
@@ -23,8 +19,8 @@ DECLARE @datez_1 DATETIME, @datez_2 DATETIME,  @datez_1_1 DATETIME, @datez_2_1 D
 DECLARE vendor_cursor CURSOR FOR 
 	SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR, dso.DS1, dpo.NPOLIS, dso.PROFIL
 		FROM D3_PACIENT_OMS AS dpo
-		JOIN D3_ZSL_OMS AS dzo ON dzo.D3_PID = dpo.ID
-		JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
+			JOIN D3_ZSL_OMS AS dzo ON dzo.D3_PID = dpo.ID
+				JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 	WHERE dzo.D3_SCID = @p AND dso.P_CEL = '1.3' 
 	AND (dzo.PR_NOV = 0 OR dzo.PR_NOV IS NULL)
 	GROUP BY dpo.FAM, dpo.IM, dpo.OT, dpo.DR, dso.DS1, dpo.NPOLIS, dso.PROFIL
@@ -77,11 +73,7 @@ INTO ztemp_du2
 FROM D3_ZSL_OMS AS dzo
 	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 		JOIN D3_USL_OMS AS duo ON duo.D3_SLID = dso.ID
-<<<<<<< HEAD
-WHERE dzo.D3_SCID = 23799
-=======
-WHERE dzo.D3_SCID = 23744
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+WHERE dzo.D3_SCID = 23826
 AND dzo.EXP_COMENT LIKE '%Значение поля ZL_LIST/ZAP/Z_SL/SL/USL/DATE_OUT не должно быть больше DATE_2%'
 GROUP BY dzo.ID, dso.ID
 

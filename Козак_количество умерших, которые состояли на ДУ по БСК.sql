@@ -16,7 +16,7 @@ z.FAM, z.IM, z.OT, z.BIRTHDATE, d2.Регистр#ДН#Диагнозы
 
 FROM dubsk AS d2
 	JOIN  [covid19].[dbo].[mtr_ZAGSARHIV] z ON ltrim(d2.Фамилия) = ltrim(z.FAM) AND ltrim( d2.Имя) = ltrim(z.IM) AND ltrim(d2.Отчество) = ltrim(z.OT) AND d2.ДР = z.BIRTHDATE
-WHERE z.DEATHDATE BETWEEN '20250101' AND '20250831'
+WHERE z.DEATHDATE BETWEEN '20250101' AND '20251130'
 GROUP BY month(z.DEATHDATE), z.FAM, z.IM, z.OT, z.BIRTHDATE, d2.Регистр#ДН#Диагнозы
 
 

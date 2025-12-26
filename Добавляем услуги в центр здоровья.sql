@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-DECLARE @id INT = 23799
-=======
-DECLARE @id INT = 23744
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+DECLARE @id INT = 23826
 
 -- B04.047.002       Профилактический прием (осмотр, консультация) врача-терапевта
 INSERT INTO D3_USL_OMS

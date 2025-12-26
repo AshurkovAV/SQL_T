@@ -18,26 +18,17 @@ INSERT INTO D3_SANK_OMS
 (
 	 [S_CODE],    [S_SUM],[S_TIP],   [S_OSN],   [S_COM],         [S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID]
 )
-<<<<<<< HEAD
-SELECT distinct NEWID(), s.sumv, 10,    s.s_osn, s.S_COM, '20251014',dzo.ID, s.zsl_id, dzo.D3_SCID
-FROM sank102025$ s 
+SELECT distinct NEWID(), s.sumv, 10,    s.s_osn, s.S_COM, '20251212',dzo.ID, s.zsl_id, dzo.D3_SCID
+FROM sank181225$ s 
 JOIN D3_ZSL_OMS AS dzo ON dzo.zsl_id = s.zsl_id
 	JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
 		JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
-WHERE dso.[YEAR] = 2025 AND dso.[MONTH] IN (8)
-=======
-SELECT distinct NEWID(), s.sumv, 10,    s.s_osn, s.S_COM, '20250814',dzo.ID, s.zsl_id, dzo.D3_SCID
-FROM sank210825$ s 
-JOIN D3_ZSL_OMS AS dzo ON dzo.zsl_id = s.zsl_id
-	JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
-		JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
-WHERE dso.[YEAR] = 2025 AND dso.[MONTH] IN (6)
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+WHERE dso.[YEAR] = 2025 AND dso.[MONTH] IN (10)
 --AND dzo.ZSL_ID NOT IN ('01274EFE-A845-4779-8C5E-BD67662BF2FF')
 --AND s.s_tip2 IN(10,12)
 
 
-COMMIT  TRAN t1 
+COMMIT  TRAN t1
 
 SELECT *
 FROM D3_SCHET_OMS  AS dzo
@@ -46,3 +37,8 @@ WHERE id IN (
 22323,
 22321,
 22324)
+
+
+delete
+FROM D3_SANK_OMS 
+WHERE S_DATE = '20251114'

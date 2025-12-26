@@ -1,13 +1,15 @@
+	--SELECT *
+	--	FROM signdoc122025$
+
+
 SELECT t.Сотрудник,[Отделение], dbo.GROUP_CONCAT_DS(DISTINCT Наименование, N' , ', 1)Наименование, sum(kol)kol
 FROM(
 		SELECT  Сотрудник, [Отделение], Наименование, sum(Количество)kol, SUBSTRING(Сотрудник, 0, CHARINDEX(' (', Сотрудник))doc
-<<<<<<< HEAD
-		FROM docsign2$
-=======
-		FROM docsing0625$
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+		FROM signdoc122025$
 		WHERE Наименование NOT LIKE '%зуба%' 
 		AND Сотрудник NOT LIKE '%Ариадна Лис%'
+		AND Сотрудник NOT LIKE '%Сестринское дело%'
+		AND Сотрудник NOT LIKE '%№ п/п%'		
 		AND Услуга NOT LIKE '%CT%'
 		AND Услуга NOT LIKE '%A11%'
 		AND Услуга NOT LIKE '%088-y06_FED%'
@@ -41,7 +43,15 @@ FROM(
 		AND Услуга NOT LIKE '%A16.07.051%'
 		AND Услуга NOT LIKE '%A17.07.003%'
 		AND Услуга NOT LIKE '%A16.07.017.002%'
-		AND Услуга NOT LIKE '014/у%'
+		AND Услуга NOT LIKE '%014/у%'
+		AND Наименование NOT LIKE '%Протокол КИЛИ Смерть на дому%'
+		AND Наименование NOT LIKE '%Карта внутреннего контроля качества медицинской помощи в условиях круглосуточного стационара/дневного стационара%'
+		AND Наименование NOT LIKE '%Описание и интерпретация рентгенографических изображений%'
+		AND Наименование NOT LIKE '%Школа%'
+		AND Наименование NOT LIKE '%Наложение%'
+		AND Наименование NOT LIKE '%снятие%'
+		AND Наименование NOT LIKE '%вскрытие%'
+		
  
 		GROUP BY Сотрудник, [Отделение], Наименование) AS t
 LEFT JOIN (

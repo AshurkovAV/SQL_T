@@ -4,11 +4,7 @@
 INSERT INTO @schetTab(id)
 SELECT id
 FROM D3_SCHET_OMS AS dso
-<<<<<<< HEAD
-WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 8-- AND dso.NSCHET LIKE '%+%'
-=======
-WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 6-- AND dso.NSCHET LIKE '%+%'
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 10-- AND dso.NSCHET LIKE '%+%'
 
  
  DECLARE @d DATETIME = GETDATE()
@@ -21,11 +17,7 @@ WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 6-- AND dso.NSCHET LIKE '%+%'
 										 --SELECT *
 										 --INTO ztemp_sankdop2025
 											--				FROM D3_SANK_OMS AS dso
-<<<<<<< HEAD
-											--				WHERE s_tip in (10,12) AND dso.S_DATE = '20251014' 
-=======
-											--				WHERE s_tip in (10,12) AND dso.S_DATE = '20250814' 
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+											--				WHERE s_tip in (10,12) AND dso.S_DATE = '20251212' 
 											--				AND  dso.ID IN (
 											--								SELECT MAX(s.ID)
 											--								FROM D3_SANK_OMS s 
@@ -34,11 +26,7 @@ WHERE dso.[YEAR] = 2025 AND dso.[MONTH] = 6-- AND dso.NSCHET LIKE '%+%'
 -- DROP TABLE ztemp_sankdop2025
  
  SELECT *
-<<<<<<< HEAD
- INTO ZreestrEkonom_sank08025_29
-=======
- INTO ZreestrEkonom_sank06025_27
->>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
+ INTO ZreestrEkonom_sank102025_31
  FROM (
  
 
