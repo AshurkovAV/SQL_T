@@ -1,5 +1,9 @@
 --select * 
+<<<<<<< HEAD
 DECLARE @p INT = 23799
+=======
+DECLARE @p INT = 23744
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 update p set ID_PAC = newid()
 fROM [D3_SCHET_OMS] sch                  
   inner join D3_PACIENT_OMS p on p.d3_scid=sch.id 

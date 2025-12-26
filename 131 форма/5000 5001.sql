@@ -24,7 +24,11 @@ join D3_SL_OMS s on s.D3_ZSLID=zs.ID
 left join v017 on v017.IDDR=zs.RSLT_D		
 left join [OsobSluchDb] o on o.Id=zs.OS_SLUCH_REGION		
 where sch.CODE_MO=460026					
+<<<<<<< HEAD
 	and sch.year=2025 and sch.month=10
+=======
+	and sch.year=2025 and sch.month=7
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 	and zs.OS_SLUCH_REGION in(47,49) -- ДВН 1 эт	
 	and isnull(zs.PR_NOV,0)=0 --подано впервые	
 		

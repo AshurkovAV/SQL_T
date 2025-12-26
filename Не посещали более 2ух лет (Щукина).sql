@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 if OBJECT_ID('ztemp_prikrep_not_visit')  is not null DROP TABLE ztemp_prikrep_not_visit
+=======
+DROP TABLE ztemp_prikrep_not_visit
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 
 SELECT t.*
 INTO ztemp_prikrep_not_visit
 FROM(
+<<<<<<< HEAD
 			SELECT ap.Фамилия fam, ap.Имя im, ap.Отчество ot, ap.Дата_рождения dr, 
 					 ISNULL(ap.Адрес_район , '-') Адрес_район,
 					 isnull(ap.Адрес_населённый_пункт , '-')Адрес_населённый_пункт,
@@ -12,6 +17,10 @@ FROM(
 					 isnull(ap.Адрес_квартира , '-')Адрес_квартира,
 					 ISNULL(ap.Адрес_район , '-') + ' ' + isnull(ap.Адрес_населённый_пункт , '-') + ' ' + isnull(ap.Адрес_улица , '-') + ' ' + ISNULL(ap.Адрес_дом , '-') + ' ' + isnull(ap.Адрес_корпус , '-')  + ' ' + isnull(ap.Адрес_квартира , '-')  addr, 
 					 ap.Актуальная_МО
+=======
+			SELECT ap.Фамилия, ap.Имя, ap.Отчество, ap.Дата_рождения, 
+				ISNULL(ap.Адрес_район , '-') + ' ' + isnull(ap.Адрес_населённый_пункт , '-') + ' ' + isnull(ap.Адрес_улица , '-') + ' ' + ISNULL(ap.Адрес_дом , '-') + ' ' + isnull(ap.Адрес_корпус , '-')  + ' ' + isnull(ap.Адрес_квартира , '-')  addr, ap.Актуальная_МО
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 			FROM Prikrep AS ap
 			WHERE ap.Актуальность = 'True' AND ap.Дата_рождения <= '20050101') AS t
 LEFT JOIN
@@ -21,6 +30,7 @@ LEFT JOIN
 				JOIN D3_ZSL_OMS AS dzo             ON dzo.D3_SCID  = dso2.ID
 					JOIN D3_PACIENT_OMS AS dpo     ON dpo.ID       = dzo.D3_PID
 						JOIN D3_SL_OMS AS dso      ON dso.D3_ZSLID = dzo.ID
+<<<<<<< HEAD
 			WHERE (dso2.[YEAR] = 2023 ) OR 
 				   dso2.[YEAR] = 2024 --OR 
 				--  (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9))
@@ -90,3 +100,30 @@ INTO zsd1
 
 SELECT *
 FROM zsd1
+=======
+			WHERE (dso2.[YEAR] = 2023 AND dso2.[MONTH] IN (8,9,10,11,12)) OR 
+				   dso2.[YEAR] = 2024 OR 
+				  (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (1,2,3,4,5,6,7))
+				  
+	)AS t2						ON t2.FAM = t.Фамилия 
+									AND t2.IM = t.Имя 
+									AND t2.OT = t.Отчество 
+									AND t2.DR = t.Дата_рождения
+WHERE t2.FAM IS NULL
+
+
+---Отделяем заводскую от союзной-------
+SELECT g.*, t.MOBIL_TELEFON, t.mcod
+	FROM ztemp_prikrep_not_visit g
+		LEFT JOIN telefon1 AS t ON t.NOM = Фамилия AND t.PRENOM = Имя AND t.PATRONYME = Отчество AND t.NE_LE = Дата_рождения		
+WHERE g.Актуальная_МО = 'Союзная' AND
+(  
+	charindex('завод',    addr)=0 AND  
+	charindex('дейнек',   addr)=0 AND
+	charindex('сумская',  addr)=0 AND
+	charindex('кулакова', addr)=0 AND
+	charindex('парковая', addr)=0 AND
+	charindex('клыков',   addr)=0  AND
+	charindex('клыкова',  addr)=0 
+) 
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c

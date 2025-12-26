@@ -18,12 +18,21 @@ INSERT INTO D3_SANK_OMS
 (
 	 [S_CODE],    [S_SUM],[S_TIP],   [S_OSN],   [S_COM],         [S_DATE],[D3_ZSLID],[D3_ZSLGID],[D3_SCID]
 )
+<<<<<<< HEAD
 SELECT distinct NEWID(), s.sumv, 10,    s.s_osn, s.S_COM, '20251014',dzo.ID, s.zsl_id, dzo.D3_SCID
 FROM sank102025$ s 
 JOIN D3_ZSL_OMS AS dzo ON dzo.zsl_id = s.zsl_id
 	JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
 		JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
 WHERE dso.[YEAR] = 2025 AND dso.[MONTH] IN (8)
+=======
+SELECT distinct NEWID(), s.sumv, 10,    s.s_osn, s.S_COM, '20250814',dzo.ID, s.zsl_id, dzo.D3_SCID
+FROM sank210825$ s 
+JOIN D3_ZSL_OMS AS dzo ON dzo.zsl_id = s.zsl_id
+	JOIN D3_SL_OMS AS dso2 ON dso2.D3_ZSLID = dzo.ID
+		JOIN D3_SCHET_OMS AS dso ON dso.ID = dzo.D3_SCID
+WHERE dso.[YEAR] = 2025 AND dso.[MONTH] IN (6)
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 --AND dzo.ZSL_ID NOT IN ('01274EFE-A845-4779-8C5E-BD67662BF2FF')
 --AND s.s_tip2 IN(10,12)
 

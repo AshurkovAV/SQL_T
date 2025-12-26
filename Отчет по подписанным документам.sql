@@ -1,7 +1,11 @@
 SELECT t.Сотрудник,[Отделение], dbo.GROUP_CONCAT_DS(DISTINCT Наименование, N' , ', 1)Наименование, sum(kol)kol
 FROM(
 		SELECT  Сотрудник, [Отделение], Наименование, sum(Количество)kol, SUBSTRING(Сотрудник, 0, CHARINDEX(' (', Сотрудник))doc
+<<<<<<< HEAD
 		FROM docsign2$
+=======
+		FROM docsing0625$
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 		WHERE Наименование NOT LIKE '%зуба%' 
 		AND Сотрудник NOT LIKE '%Ариадна Лис%'
 		AND Услуга NOT LIKE '%CT%'

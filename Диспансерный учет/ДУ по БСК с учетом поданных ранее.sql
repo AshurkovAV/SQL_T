@@ -63,7 +63,11 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
 			AND (dso2.[YEAR] = 2025
+<<<<<<< HEAD
 			AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9))--#
+=======
+			AND dso2.[MONTH] IN (1,2,3,4,5,6,7))--#
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
 SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
@@ -125,7 +129,11 @@ SELECT dpo.FAM, dpo.IM, dpo.OT, dpo.DR,
 			---------/////----------------------
 			AND dso.PROFIL IN (97, 29, 53)
 			AND dso.IDDOKT NOT IN ('054-827-304 66')
+<<<<<<< HEAD
 			AND (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (10))--#
+=======
+			AND (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (8))--#
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 	GROUP BY  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 
 SELECT *

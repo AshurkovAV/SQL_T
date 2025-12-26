@@ -3,7 +3,7 @@ if OBJECT_ID('zsd1') is not null DROP TABLE zsd1
 GO
 
 SELECT *
-INTO zsd1
+INTO zsd1234
 FROM(
 SELECT  [Фамилия], [Имя], [Отчество], CAST([Дата рождения] AS DATE)[Дата рождения], dbo.GROUP_CONCAT_DS(DISTINCT [Дата получения], N' , ', 1)[Дата получения], dbo.GROUP_CONCAT_DS(DISTINCT t, N' , ', 1)t
 				FROM(	
@@ -75,6 +75,7 @@ SELECT  [Фамилия], [Имя], [Отчество], CAST([Дата рождения] AS DATE)[Дата рождени
 				UNION ALL
 				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
 				FROM hol110825$
+<<<<<<< HEAD
 				UNION ALL
 				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'GLUK't				
 				FROM gluk08092025$
@@ -87,6 +88,8 @@ SELECT  [Фамилия], [Имя], [Отчество], CAST([Дата рождения] AS DATE)[Дата рождени
 				UNION ALL
 				SELECT fam [Фамилия], im [Имя], ot [Отчество], dr [Дата рождения], CONVERT(DATE, substring(dp,7, 4)+substring(dp,4, 2)+substring(dp,1,2)	 , 102) [Дата получения], 'HOL't
 				FROM hol061025$
+=======
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 				) AS d
 				GROUP BY  [Фамилия], [Имя], [Отчество], [Дата рождения]) AS t
 
@@ -117,8 +120,12 @@ FROM(
 	SELECT *
 	FROM zs1
 	WHERE fam IS null) AS tt
+<<<<<<< HEAD
 LEFT JOIN telefon  AS t ON tt.Фамилия=t.NOM and tt.Имя= t.PRENOM and tt.Отчество=t.PATRONYME and tt.[Дата рождения]=t.NE_LE
 
+=======
+LEFT JOIN telefon1 AS t ON tt.Фамилия=t.NOM and tt.Имя= t.PRENOM and tt.Отчество=t.PATRONYME and tt.[Дата рождения]=t.NE_LE
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 
 ------------//3 проставляем адреса и номер полиса//----------------
 if OBJECT_ID('zt2') is not null DROP TABLE zt2

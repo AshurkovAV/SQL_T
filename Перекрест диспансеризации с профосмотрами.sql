@@ -1,10 +1,15 @@
 DECLARE @OsobSluch INT  = 47
 if OBJECT_ID('ztemp_stacionar') is not null drop table ztemp_stacionar
 
+<<<<<<< HEAD
 declare @p_vd int = 23778
 
 declare @p_po int = 23777
 
+=======
+declare @p_vd int = 23680
+declare @p_po int = 23679
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 --SELECT t_pol.*--, t_stac.DATE_1, t_stac.DATE_2
 SELECT zsl_id
 INTO ztemp_stacionar

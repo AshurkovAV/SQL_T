@@ -4,7 +4,11 @@ SELECT dpo.NPOLIS,
 		when dpo.w=2 and [dbo].[f_GetAge] (dpo.DR,dzo.DATE_Z_1) >=61 or dpo.w=1 and [dbo].[f_GetAge] (dpo.DR,dzo.DATE_Z_1) >=66 then 'старше трудоспособного' 
 		end [признак трудоспособности]	,
 	(SELECT NameWithID FROM V005 WHERE Id= w)w,
+<<<<<<< HEAD
 --	dpo.FAM + ' ' + dpo.IM + ' ' +  dpo.ot + ' ' + convert(NVARCHAR(10), dpo.DR, 104) fio,
+=======
+	dpo.FAM + ' ' + dpo.IM + ' ' +  dpo.ot + ' ' + convert(NVARCHAR(10), dpo.DR, 104) fio,
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 	cast(dzo.DATE_Z_2 AS DATE)d2, ds1, 
 	(CASE WHEN dso2.[MONTH] = 1 THEN  'Январь'
 		  WHEN dso2.[MONTH] = 2 THEN  'Февраль'
@@ -23,12 +27,21 @@ SELECT dpo.NPOLIS,
 	(SELECT TOP 1 ysme.NameWithID FROM Yamed_Spr_MedicalEmployee AS ysme WHERE ysme.SNILS = iddokt)iddokt1, 
 	(CASE WHEN ysme.LPU_ID = 460006 THEN 'Заводская'
 	      WHEN ysme.LPU_ID = 460026 THEN 'Союзная' ELSE 'Что-то пошло не так' END) lpu_id,
+<<<<<<< HEAD
 	(SELECT osd.NameWithID FROM OsobSluchDb AS osd WHERE osd.Id = dzo.OS_SLUCH_REGION ) OS_SLUCH_REGION
 	--dso3.S_COM, dso3.S_TIP,
 	--CASE WHEN isnull(dzo.PR_NOV, 0) = 0 
 	--		THEN 'Сведения об оказанной медицинской помощи передаются впервые' 
 	--		ELSE 'Запись передается повторно после исправления' 
  --   END PR_NOV, dso2.[MONTH], REPLACE(REPLACE(dzo.EXP_COMENT, CHAR(13), ''), CHAR(10), '')expcom
+=======
+	(SELECT osd.NameWithID FROM OsobSluchDb AS osd WHERE osd.Id = dzo.OS_SLUCH_REGION ) OS_SLUCH_REGION,
+	dso3.S_COM, dso3.S_TIP,
+	CASE WHEN isnull(dzo.PR_NOV, 0) = 0 
+			THEN 'Сведения об оказанной медицинской помощи передаются впервые' 
+			ELSE 'Запись передается повторно после исправления' 
+    END PR_NOV, dso2.[MONTH], REPLACE(REPLACE(dzo.EXP_COMENT, CHAR(13), ''), CHAR(10), '')expcom
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 FROM D3_ZSL_OMS AS dzo
 	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 		JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
@@ -36,7 +49,11 @@ FROM D3_ZSL_OMS AS dzo
 				LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 					LEFT JOIN D3_SANK_OMS AS dso3 ON dso3.D3_ZSLID = dzo.ID
 WHERE dzo.OS_SLUCH_REGION IN (4,47,49,50 ) 
+<<<<<<< HEAD
 AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8,9,10) 
+=======
+AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8) 
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 AND dso2.[YEAR] = 2025
 AND dso2.NSCHET NOT LIKE '%ошибк%'
 AND (dzo.PR_NOV IS NULL OR dzo.PR_NOV = 0)
@@ -49,7 +66,11 @@ SELECT dpo.NPOLIS,
 		when dpo.w=2 and [dbo].[f_GetAge] (dpo.DR,dzo.DATE_Z_1) >=61 or dpo.w=1 and [dbo].[f_GetAge] (dpo.DR,dzo.DATE_Z_1) >=66 then 'старше трудоспособного' 
 		end [признак трудоспособности]	,
 	(SELECT NameWithID FROM V005 WHERE Id= w)w,
+<<<<<<< HEAD
 --	dpo.FAM + ' ' + dpo.IM + ' ' +  dpo.ot + ' ' + convert(NVARCHAR(10), dpo.DR, 104) fio,
+=======
+	dpo.FAM + ' ' + dpo.IM + ' ' +  dpo.ot + ' ' + convert(NVARCHAR(10), dpo.DR, 104) fio,
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 	cast(dzo.DATE_Z_2 AS DATE)d2, ds1, 
 	(CASE WHEN dso2.[MONTH] = 1 THEN  'Январь'
 		  WHEN dso2.[MONTH] = 2 THEN  'Февраль'
@@ -68,19 +89,32 @@ SELECT dpo.NPOLIS,
 	(CASE WHEN ysme.LPU_ID = 460006 THEN 'Заводская'
 	      WHEN ysme.LPU_ID = 460026 THEN 'Союзная' ELSE 'Что-то пошло не так' END) lpu_id,
 	(CASE WHEN dso2.SchetType = 'DD' THEN 'Первый этап диспансеризации для оценки репродуктивного здоровья'
+<<<<<<< HEAD
 	      WHEN dso2.SchetType = 'DE' THEN 'Второй этап диспансеризации для оценки репродуктивного здоровья' ELSE 'Что-то пошло не так' END) OS_SLUCH_REGION
 	--dso3.S_COM, dso3.S_TIP,
 	--CASE WHEN isnull(dzo.PR_NOV, 0) = 0 
 	--		THEN 'Сведения об оказанной медицинской помощи передаются впервые' 
 	--		ELSE 'Запись передается повторно после исправления' 
  --   END PR_NOV, dso2.[MONTH], REPLACE(REPLACE(dzo.EXP_COMENT, CHAR(13), ''), CHAR(10), '')expcom
+=======
+	      WHEN dso2.SchetType = 'DE' THEN 'Второй этап диспансеризации для оценки репродуктивного здоровья' ELSE 'Что-то пошло не так' END) OS_SLUCH_REGION,
+	dso3.S_COM, dso3.S_TIP,
+	CASE WHEN isnull(dzo.PR_NOV, 0) = 0 
+			THEN 'Сведения об оказанной медицинской помощи передаются впервые' 
+			ELSE 'Запись передается повторно после исправления' 
+    END PR_NOV, dso2.[MONTH], REPLACE(REPLACE(dzo.EXP_COMENT, CHAR(13), ''), CHAR(10), '')expcom
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 FROM D3_ZSL_OMS AS dzo
 	JOIN D3_SL_OMS AS dso ON dso.D3_ZSLID = dzo.ID
 		JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 			JOIN D3_SCHET_OMS AS dso2 ON dso2.ID = dzo.D3_SCID --AND dso2.NSCHET LIKE '%сдан%'
 				LEFT JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 					LEFT JOIN D3_SANK_OMS AS dso3 ON dso3.D3_ZSLID = dzo.ID
+<<<<<<< HEAD
 WHERE  dso2.[MONTH] IN (1, 2,3,4,5,6,7,8,9,10) 
+=======
+WHERE  dso2.[MONTH] IN (1, 2,3,4,5,6,7,8) 
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 AND dso2.[YEAR] = 2025
 AND dso2.SchetType IN ('DD', 'DE')
 AND (dzo.PR_NOV IS NULL OR dzo.PR_NOV = 0)

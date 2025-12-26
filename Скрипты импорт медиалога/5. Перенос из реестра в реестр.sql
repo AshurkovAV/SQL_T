@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 DECLARE @D3_SCID_old INT = 23745 --старый реестр где они сейчас
 DECLARE @D3_SCID_new INT = 23773 --новый реестр куда нужно перенести
+=======
+DECLARE @D3_SCID_old INT = 23710 --старый реестр где они сейчас
+DECLARE @D3_SCID_new INT = 23744 --новый реестр куда нужно перенести
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 
 UPDATE dpo SET dpo.D3_SCID = @D3_SCID_new
 FROM D3_PACIENT_OMS AS dpo

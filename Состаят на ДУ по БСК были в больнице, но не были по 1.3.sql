@@ -31,11 +31,19 @@ WHERE t1.fam IS NULL
 		
 		if OBJECT_ID('ztemp_ztemp_du_bsk_adr') is not null DROP TABLE ztemp_ztemp_du_bsk_adr
 		GO
+<<<<<<< HEAD
 		SELECT tt.*, t.MOBIL_TELEFON--, ISNULL(ap.AdrOmsRn, '-') + ' ' + isnull(ap.AdrOmsNaspunkt, '-') + ' ' + isnull(ap.AdrOmsUl, '-') + ' ' + ISNULL(ap.AdrOmsDom, '-') + ' ' + isnull(ap.AdrOmsKorp, '-')  + ' ' + isnull(ap.AdrOmsKv, '-') addr
 		INTO ztemp_ztemp_du_bsk_adr
 		FROM ztemp_du_bsk_zt2 tt 
 			--INNER JOIN [SQL_COD].[DocExchange].[dbo].[ATTP_People] as ap ON tt.PID=ap.ID
 				LEFT JOIN telefon  AS t ON tt.fam=t.NOM and tt.im= t.PRENOM and tt.ot=t.PATRONYME and tt.dr=t.NE_LE
+=======
+		SELECT tt.*, t.tel--, ISNULL(ap.AdrOmsRn, '-') + ' ' + isnull(ap.AdrOmsNaspunkt, '-') + ' ' + isnull(ap.AdrOmsUl, '-') + ' ' + ISNULL(ap.AdrOmsDom, '-') + ' ' + isnull(ap.AdrOmsKorp, '-')  + ' ' + isnull(ap.AdrOmsKv, '-') addr
+		INTO ztemp_ztemp_du_bsk_adr
+		FROM ztemp_du_bsk_zt2 tt 
+			--INNER JOIN [SQL_COD].[DocExchange].[dbo].[ATTP_People] as ap ON tt.PID=ap.ID
+				LEFT JOIN [test].[dbo].[Tel] t ON tt.fam=f and tt.im=i and tt.ot=o and tt.dr=d
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 		-------------Добавляю телефон и адрес --------------------
 
 -----------3.		
@@ -67,9 +75,15 @@ INTO zt
 FROM ztemp_ztemp_du_bsk_adr t  
 --dbo.[f_ashur_du_bsk]() AS t 
 	LEFT JOIN  dbo.f_ashur_reestr(2025) AS t1 ON t.fam = t1.fam
+<<<<<<< HEAD
 												AND t.im = t1.IM
 												AND t.ot = t1.ot
 												AND t.dr = t1.dr
+=======
+														AND t.im = t1.IM
+														AND t.ot = t1.ot
+														AND t.dr = t1.dr
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 WHERE t1.fam IS NOT NULL
 
 

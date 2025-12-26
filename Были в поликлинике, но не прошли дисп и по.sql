@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 if OBJECT_ID('zsd1')  is not null DROP TABLE zsd1
 SELECT dpo.NPOLIS,dpo.FAM, dpo.IM, dpo.OT, dpo.DR, 
 dbo.GROUP_CONCAT_DS(DISTINCT dzo.OS_SLUCH_REGION , N' , ', 1)OS_SLUCH_REGION, 
+=======
+DROP TABLE zsd1
+SELECT dpo.NPOLIS,dpo.FAM, dpo.IM, dpo.OT, dpo.DR, 
+dbo.GROUP_CONCAT_DS(DISTINCT dzo.OS_SLUCH_REGION , N' , ', 1)OS_SLUCH_REGION, 
+
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 dbo.GROUP_CONCAT_DS(DISTINCT convert(date, dzo.DATE_Z_2, 102) , N' , ', 1)DATE_Z_2, 
 dbo.GROUP_CONCAT_DS(DISTINCT ysme.NameWithID , N' , ', 1)doc
 INTO zsd1
@@ -10,7 +17,11 @@ INTO zsd1
 							JOIN D3_PACIENT_OMS AS dpo ON dpo.ID = dzo.D3_PID
 								JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = IDDOKT
 				WHERE dso2.[YEAR] IN (2025) 
+<<<<<<< HEAD
 				AND dzo.DATE_Z_1 BETWEEN '20250701' AND GETDATE()
+=======
+				AND dzo.DATE_Z_1 BETWEEN '20250701' AND '20250707'
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 				AND (dzo.PR_NOV IS NULL OR dzo.PR_NOV = 0) 
 				AND dzo.USL_OK = 3  
 				AND dzo.OS_SLUCH_REGION IS NULL 
@@ -18,8 +29,12 @@ INTO zsd1
 GROUP BY dpo.NPOLIS,  dpo.FAM, dpo.IM, dpo.OT, dpo.DR
 				
 	
+<<<<<<< HEAD
 
 if OBJECT_ID('zs1')  is not null DROP TABLE zs1			
+=======
+DROP TABLE zs1				
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 SELECT t.*
 INTO zs1 
 	FROM zsd1 AS t

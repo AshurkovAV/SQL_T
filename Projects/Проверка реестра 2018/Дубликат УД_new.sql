@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 DECLARE @D3_SCID INT = 23780
+=======
+DECLARE @D3_SCID INT = 23716
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 DECLARE @OsobSluch INT  = 50
 
 declare @tab table (

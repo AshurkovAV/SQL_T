@@ -8,7 +8,11 @@ INTO zsd1
 						JOIN D3_SL_OMS AS dso					   ON dso.D3_ZSLID = dzo.ID
 							JOIN Yamed_Spr_MedicalEmployee AS ysme ON ysme.SNILS = dso.IDDOKT
 			WHERE 
+<<<<<<< HEAD
 				  (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (1,2,3,4,5,6,7,8)) AND dzo.USL_OK = 2 AND ysme.LPU_ID = 460006
+=======
+				  (dso2.[YEAR] = 2025 AND dso2.[MONTH] IN (1,2,3,4,5,6,7)) AND dzo.USL_OK = 2 AND ysme.LPU_ID = 460006
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
 				  
 				  
 
@@ -40,8 +44,15 @@ INTO zt1
 FROM(
 	SELECT *
 	FROM zs1 ) AS tt
+<<<<<<< HEAD
 LEFT JOIN telefon AS t ON tt.fam=t.NOM and tt.im= t.PRENOM and tt.ot=t.PATRONYME and tt.dr=t.NE_LE
 
 SELECT *
 FROM zt1
 
+=======
+LEFT JOIN telefon1 AS t ON tt.fam=t.NOM and tt.im= t.PRENOM and tt.ot=t.PATRONYME and tt.dr=t.NE_LE
+
+SELECT *
+FROM zt1
+>>>>>>> e8f1c39c6b0ec0db9093e40e90869ce12ca5707c
